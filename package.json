@@ -1,0 +1,32 @@
+{
+	"name": "@derhuerst/stable-public-transport-ids",
+	"description": "Get stable IDs for public transport stations, etc.",
+	"version": "1.0.0",
+	"main": "index.js",
+	"files": [
+		"index.js"
+	],
+	"keywords": [
+		"public transport",
+		"transit",
+		"id"
+	],
+	"author": "Jannis R <mail@jannisr.de>",
+	"homepage": "https://github.com/derhuerst/stable-public-transport-ids",
+	"repository": "derhuerst/stable-public-transport-ids",
+	"bugs": "https://github.com/derhuerst/stable-public-transport-ids/issues",
+	"license": "ISC",
+	"engines": {
+		"node": ">=10"
+	},
+	"dependencies": {
+	},
+	"devDependencies": {
+		"tap-min": "^2.0.0",
+		"tape": "^4.10.1"
+	},
+	"scripts": {
+		"test": "env NODE_ENV=dev node test.js | tap-min",
+		"prepublishOnly": "npm test"
+	}
+}
