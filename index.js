@@ -1,3 +1,7 @@
 'use strict'
 
-module.exports = {}
+const stopIds = require('./stop')
+
+module.exports = {
+	stopIds
+}

@@ -2,8 +2,25 @@
 
 const test = require('tape')
 
-const todo = require('.')
+const stopIds = require('./stop')
 
-test('todo', (t) => {
-	// todo
+const normalize = n => n.toLowerCase().trim()
+
+test('stop IDs', (t) => {
+	const ids = stopIds('sauce', normalize)({
+		id: '123',
+		name: 'Foo',
+		station: {id: '12', name: 'Bar'},
+		location: {latitude: 12.345, longitude: 23.456}
+	})
+	t.deepEqual(ids, [
+		['sauce', '123'].join(':'), // data src, stop ID
+		['sauce', 'station:12'].join(':'), // data src, station ID, name
+		['bar', 12.35, 23.46].join(':'), // normalized name, normalized coords
+		// normalized name, normalized & shifted coords
+		['bar', 12.35 + .33, 23.46 + .33].join(':'),
+		['bar', 12.35 + .66, 23.46 + .66].join(':')
+	])
+
+	t.end()
 })
