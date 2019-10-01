@@ -26,6 +26,7 @@
 	"dependencies": {
 	},
 	"devDependencies": {
+		"slugg": "^1.2.1",
 		"tap-min": "^2.0.0",
 		"tape": "^4.10.1"
 	},
