@@ -3,6 +3,7 @@
 const test = require('tape')
 
 const stopIds = require('./stop')
+const lineIds = require('./line')
 
 const normalize = n => n.toLowerCase().trim()
 
@@ -20,6 +21,20 @@ test('stop IDs', (t) => {
 		// normalized name, normalized & shifted coords
 		['bar', 12.35 + .33, 23.46 + .33].join(':'),
 		['bar', 12.35 + .66, 23.46 + .66].join(':')
+	])
+
+	t.end()
+})
+
+test('line IDs', (t) => {
+	const ids = lineIds('sauce', normalize)({
+		id: '1a',
+		name: 'Some Line',
+		product: 'suburban'
+	})
+	t.deepEqual(ids, [
+		['sauce', '1a'].join(':'), // data src, line ID
+		['suburban', 'some line'].join(':') // product, normalized name
 	])
 
 	t.end()
