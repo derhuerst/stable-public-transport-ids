@@ -6,7 +6,8 @@
 	"files": [
 		"index.js",
 		"stop.js",
-		"line.js"
+		"line.js",
+		"arrival-departure.js"
 	],
 	"keywords": [
 		"public transport",

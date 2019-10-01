@@ -4,6 +4,7 @@ const test = require('tape')
 
 const stopIds = require('./stop')
 const lineIds = require('./line')
+const arrivalDepartureIds = require('./arrival-departure')
 
 const normalize = n => n.toLowerCase().trim()
 
@@ -35,6 +36,43 @@ test('line IDs', (t) => {
 	t.deepEqual(ids, [
 		['sauce', '1a'].join(':'), // data src, line ID
 		['suburban', 'some line'].join(':') // product, normalized name
+	])
+
+	t.end()
+})
+
+test('arrival/departure IDs', (t) => {
+	const stopIds = ['some-stop', 'another:stop']
+	const routeIds = ['some-route', 'another:route']
+	const tripIds = ['some-trip', 'another:trip']
+	const lineIds = ['some-line', 'another:line']
+	const normalizePlatform = p => p.toLowerCase().trim()
+
+	const getIds = arrivalDepartureIds(stopIds, tripIds, routeIds, lineIds, normalizePlatform)
+	const ids = getIds('arrival', {
+		when: '2019-01-01T10:11+01:00',
+		plannedWhen: '2019-01-01T10:10+01:00', // todo: what if null?
+		platform: '3',
+		plannedPlatform: '2A/B '
+	})
+	t.deepEqual(ids, [
+		// stop ID + trip ID
+		['arrival', 'some-stop', 'some-trip'].join(':'),
+		['arrival', 'another:stop', 'some-trip'].join(':'),
+		['arrival', 'some-stop', 'another:trip'].join(':'),
+		['arrival', 'another:stop', 'another:trip'].join(':'),
+
+		// stop ID + route ID + plannedWhen
+		['arrival', 'some-stop', 'some-route', 1546333800].join(':'),
+		['arrival', 'another:stop', 'some-route', 1546333800].join(':'),
+		['arrival', 'some-stop', 'another:route', 1546333800].join(':'),
+		['arrival', 'another:stop', 'another:route', 1546333800].join(':'),
+
+		// stop ID + line ID + plannedWhen + plannedPlatform
+		['arrival', 'some-stop', 'some-line', 1546333800, '2a/b'].join(':'),
+		['arrival', 'another:stop', 'some-line', 1546333800, '2a/b'].join(':'),
+		['arrival', 'some-stop', 'another:line', 1546333800, '2a/b'].join(':'),
+		['arrival', 'another:stop', 'another:line', 1546333800, '2a/b'].join(':')
 	])
 
 	t.end()
