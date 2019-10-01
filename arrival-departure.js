@@ -1,5 +1,7 @@
 'use strict'
 
+const {dataVersion: v} = require('./package.json')
+
 // [1,2], [3,4] -> [[1,3], [1,4], [2,3], [2,4]]
 const matrix = (n, m) => m.reduce((l, m) => {
 	return [...l, ...n.map(n => [n, m])]
@@ -29,7 +31,7 @@ const arrivalDepartureIds = (stopIds, tripIds, routeIds, lineIds, normalizePlatf
 		...matrix(stopIds, tripIds),
 		...fuzzyByRoute,
 		...fuzzyByLine
-	].map(id => [type, ...id].join(':'))
+	].map(id => [v, type, ...id].join(':'))
 }
 
 module.exports = arrivalDepartureIds

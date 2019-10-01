@@ -1,11 +1,13 @@
 'use strict'
 
+const {dataVersion: v} = require('./package.json')
+
 const lineIds = (dataSource, normalizeName) => (s) => {
 	const byId = s.id ? [
-		[dataSource, s.id]
+		[v, dataSource, s.id]
 	] : []
 	const byProdAndName = s.product && s.name ? [
-		[s.product, normalizeName(s.name)]
+		[v, s.product, normalizeName(s.name)]
 	] : []
 	return [
 		...byId,

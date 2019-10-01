@@ -1,5 +1,7 @@
 'use strict'
 
+const {dataVersion: v} = require('./package.json')
+
 const grid = (lat, lon, offset) => [
 	Math.round((lat + offset) * 100) / 100,
 	Math.round((lon + offset) * 100) / 100
@@ -17,7 +19,9 @@ const stopIds = (dataSource, normalizeName) => (s) => {
 		[nName, ...grid(lat, lon, 0)].join(':'),
 		[nName, ...grid(lat, lon, .333)].join(':'),
 		[nName, ...grid(lat, lon, .666)].join(':')
-	].filter(v => v !== null)
+	]
+	.filter(id => id !== null)
+	.map(id => v + ':' + id)
 }
 
 module.exports = stopIds

@@ -1,6 +1,7 @@
 'use strict'
 
 const test = require('tape')
+const {dataVersion: v} = require('./package.json')
 
 const stopIds = require('./stop')
 const lineIds = require('./line')
@@ -16,12 +17,12 @@ test('stop IDs', (t) => {
 		location: {latitude: 12.345, longitude: 23.456}
 	})
 	t.deepEqual(ids, [
-		['sauce', '123'].join(':'), // data src, stop ID
-		['sauce', 'station:12'].join(':'), // data src, station ID, name
-		['bar', 12.35, 23.46].join(':'), // normalized name, normalized coords
+		[v, 'sauce', '123'].join(':'), // data src, stop ID
+		[v, 'sauce', 'station:12'].join(':'), // data src, station ID, name
+		[v, 'bar', 12.35, 23.46].join(':'), // normalized name, normalized coords
 		// normalized name, normalized & shifted coords
-		['bar', 12.35 + .33, 23.46 + .33].join(':'),
-		['bar', 12.35 + .66, 23.46 + .66].join(':')
+		[v, 'bar', 12.35 + .33, 23.46 + .33].join(':'),
+		[v, 'bar', 12.35 + .66, 23.46 + .66].join(':')
 	])
 
 	t.end()
@@ -34,8 +35,8 @@ test('line IDs', (t) => {
 		product: 'suburban'
 	})
 	t.deepEqual(ids, [
-		['sauce', '1a'].join(':'), // data src, line ID
-		['suburban', 'some line'].join(':') // product, normalized name
+		[v, 'sauce', '1a'].join(':'), // data src, line ID
+		[v, 'suburban', 'some line'].join(':') // product, normalized name
 	])
 
 	t.end()
@@ -57,22 +58,22 @@ test('arrival/departure IDs', (t) => {
 	})
 	t.deepEqual(ids, [
 		// stop ID + trip ID
-		['arrival', 'some-stop', 'some-trip'].join(':'),
-		['arrival', 'another:stop', 'some-trip'].join(':'),
-		['arrival', 'some-stop', 'another:trip'].join(':'),
-		['arrival', 'another:stop', 'another:trip'].join(':'),
+		[v, 'arrival', 'some-stop', 'some-trip'].join(':'),
+		[v, 'arrival', 'another:stop', 'some-trip'].join(':'),
+		[v, 'arrival', 'some-stop', 'another:trip'].join(':'),
+		[v, 'arrival', 'another:stop', 'another:trip'].join(':'),
 
 		// stop ID + route ID + plannedWhen
-		['arrival', 'some-stop', 'some-route', 1546333800].join(':'),
-		['arrival', 'another:stop', 'some-route', 1546333800].join(':'),
-		['arrival', 'some-stop', 'another:route', 1546333800].join(':'),
-		['arrival', 'another:stop', 'another:route', 1546333800].join(':'),
+		[v, 'arrival', 'some-stop', 'some-route', 1546333800].join(':'),
+		[v, 'arrival', 'another:stop', 'some-route', 1546333800].join(':'),
+		[v, 'arrival', 'some-stop', 'another:route', 1546333800].join(':'),
+		[v, 'arrival', 'another:stop', 'another:route', 1546333800].join(':'),
 
 		// stop ID + line ID + plannedWhen + plannedPlatform
-		['arrival', 'some-stop', 'some-line', 1546333800, '2a/b'].join(':'),
-		['arrival', 'another:stop', 'some-line', 1546333800, '2a/b'].join(':'),
-		['arrival', 'some-stop', 'another:line', 1546333800, '2a/b'].join(':'),
-		['arrival', 'another:stop', 'another:line', 1546333800, '2a/b'].join(':')
+		[v, 'arrival', 'some-stop', 'some-line', 1546333800, '2a/b'].join(':'),
+		[v, 'arrival', 'another:stop', 'some-line', 1546333800, '2a/b'].join(':'),
+		[v, 'arrival', 'some-stop', 'another:line', 1546333800, '2a/b'].join(':'),
+		[v, 'arrival', 'another:stop', 'another:line', 1546333800, '2a/b'].join(':')
 	])
 
 	t.end()
