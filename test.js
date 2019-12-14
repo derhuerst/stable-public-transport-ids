@@ -19,10 +19,12 @@ test('stop IDs', (t) => {
 	t.deepEqual(ids, [
 		[v, 'sauce', '123'].join(':'), // data src, stop ID
 		[v, 'sauce', 'station:12'].join(':'), // data src, station ID, name
-		[v, 'bar', 12.35, 23.46].join(':'), // normalized name, normalized coords
+		[v, 'bar', 12.345.toFixed(4), 23.456.toFixed(4)].join(':'), // normalized name, normalized coords
 		// normalized name, normalized & shifted coords
-		[v, 'bar', 12.35 + .33, 23.46 + .33].join(':'),
-		[v, 'bar', 12.35 + .66, 23.46 + .66].join(':')
+		[v, 'bar', 12.345.toFixed(4), (23.456 + .001).toFixed(4)].join(':'),
+		[v, 'bar', 12.345.toFixed(4), (23.456 + .002).toFixed(4)].join(':'),
+		[v, 'bar', (12.345 + .001).toFixed(4), 23.456.toFixed(4)].join(':'),
+		[v, 'bar', (12.345 + .002).toFixed(4), 23.456.toFixed(4)].join(':')
 	])
 
 	t.end()
