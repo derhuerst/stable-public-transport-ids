@@ -9,6 +9,8 @@ const {encode: toGeohash} = require('ngeohash')
 // We don't follow the OneStop ID scheme exactly, so we prefix IDs
 // with a custom version to indicate that they are proprietary.
 // see also derhuerst/stable-public-transport-ids#2
+// todo: https://github.com/transitland/transitland-datastore/blob/aac07be724c0dbde177aeb0dfca06dab7bfbb5c7/spec/services/onestop_id_spec.rb
+// todo: https://github.com/transitland/transitland-datastore/blob/4d48dd7a1ffe203bc0376dbc0eeb231117318f34/app/services/feed_info.rb#L87-L100
 const CUSTOM_ONESTOP_PREFIX = 'custom'
 
 // https://transit.land/documentation/onestop-id-scheme/
