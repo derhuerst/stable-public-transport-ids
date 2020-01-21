@@ -54,10 +54,14 @@ const operatorGeohash = (area) => {
 
 const operatorIds = (dataSource, normalizeName) => (o) => {
 	const ids = [
+		o.wikidataId || null,
+		o.osmId || null,
+		o.id ? dataSource + ':' + o.id : null
 	]
 
 	if (o.serviceArea) {
 		const nName = normalizeName(o.name)
+		const {latitude: lat, longitude: lon} = centerOfMass(o.serviceArea)
 
 		const onestopId = [
 			CUSTOM_ONESTOP_PREFIX,
@@ -66,7 +70,10 @@ const operatorIds = (dataSource, normalizeName) => (o) => {
 			nName.replace(/-/, '').replace(/\W/, '~')
 		].join(':')
 
-		ids.push(onestopId)
+		ids.push(
+			onestopId,
+			[nName, ...grid(lat, lon)].join(':')
+		)
 	}
 
 	return ids
