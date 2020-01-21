@@ -9,7 +9,8 @@
 		"operator.js",
 		"stop.js",
 		"line.js",
-		"arrival-departure.js"
+		"arrival-departure.js",
+		"lib"
 	],
 	"keywords": [
 		"public transport",

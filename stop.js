@@ -1,11 +1,7 @@
 'use strict'
 
 const {dataVersion: v} = require('./package.json')
-
-const grid = (lat, lon) => [
-	Math.round(lat * 1000) / 1000,
-	Math.round(lon * 1000) / 1000
-].map(x => x.toFixed(4))
+const {grid} = require('./lib/helpers')
 
 const stopIds = (dataSource, normalizeName) => (s) => {
 	const nName = normalizeName(s.station && s.station.name || s.name)
