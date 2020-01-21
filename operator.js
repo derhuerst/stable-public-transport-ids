@@ -1,10 +1,11 @@
 'use strict'
 
-const {default: centerOfMass} = require('@turf/center-of-mass')
+const {default: _centerOfMass} = require('@turf/center-of-mass')
 const {default: bbox} = require('@turf/bbox')
 const {default: distance} = require('@turf/distance')
 const {point} = require('@turf/helpers')
 const {encode: toGeohash} = require('ngeohash')
+const {dataVersion: v} = require('./package.json')
 
 // We don't follow the OneStop ID scheme exactly, so we prefix IDs
 // with a custom version to indicate that they are proprietary.
@@ -16,11 +17,15 @@ const CUSTOM_ONESTOP_PREFIX = 'custom'
 // https://transit.land/documentation/onestop-id-scheme/
 const ONESTOP_OPERATOR_PREFIX = 'o'
 
+const centerOfMass = (area) => {
+	const center = _centerOfMass(area)
+	const [longitude, latitude] = center.geometry.coordinates
+	return {latitude, longitude}
+}
+
 const areaBbox = (area) => {
 	// https://tools.ietf.org/html/rfc7946#section-5
 	if (Array.isArray(area.bbox)) return area.bbox
-	const center = centerOfMass(area)
-	const [lon, lat] = center.geometry.coordinates
 	return bbox(area)
 }
 
@@ -61,26 +66,30 @@ const operatorGeohash = (area) => {
 	const level = precisions.find(([w, h]) => w <= width || h <= height)
 	const precision = level ? level[2] : 1
 
-	const center = centerOfMass(area)
-	const [lon, lat] = center.geometry.coordinates
-	return toGeohash(lat, lon, precision)
+	const {latitude, longitude} = centerOfMass(area)
+	return toGeohash(latitude, longitude, precision)
 }
 
 const operatorIds = (dataSource, normalizeName) => (o) => {
-	let onestopId = null
+	const ids = [
+	]
+
 	if (o.serviceArea) {
-		onestopId = [
+		const nName = normalizeName(o.name)
+
+		const onestopId = [
 			CUSTOM_ONESTOP_PREFIX,
 			ONESTOP_OPERATOR_PREFIX,
 			operatorGeohash(o.serviceArea),
-			normalizeName(o.name).replace(/-/, '').replace(/\W/, '~')
-		].join('-')
+			nName.replace(/-/, '').replace(/\W/, '~')
+		].join(':')
+
+		ids.push(onestopId)
 	}
 
-	return [
-		onestopId
-		// todo: other IDs
-	].filter(id => id !== null)
+	return ids
+	.filter(id => id !== null)
+	.map(id => v + ':' + id)
 }
 
 module.exports = operatorIds

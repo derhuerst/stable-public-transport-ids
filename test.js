@@ -3,11 +3,38 @@
 const test = require('tape')
 const {dataVersion: v} = require('./package.json')
 
+const operatorIds = require('./operator')
 const stopIds = require('./stop')
 const lineIds = require('./line')
 const arrivalDepartureIds = require('./arrival-departure')
 
 const normalize = n => n.toLowerCase().trim()
+
+const beginsWith = str => str2 => str2.slice(0, str.length) === str
+
+test('operator OneStop ID', (t) => {
+	const ids = operatorIds('sauce', normalize)({
+		type: 'operator',
+		id: 'foo',
+		name: 'Foo Transit',
+		serviceArea: {
+			type: 'Feature',
+			properties: {},
+			geometry: {
+				type: 'Polygon',
+				coordinates: [[
+					[-81, 41], [-88, 36], [-84, 31],
+					[-80, 33], [-77, 39], [-81, 41]
+				]]
+			}
+		}
+	})
+
+	const onestopId = ids.find(beginsWith(`${v}:custom:o:`))
+	t.equal(onestopId, `${v}:custom:o:dn:foo~transit`)
+
+	t.end()
+})
 
 test('stop IDs', (t) => {
 	const ids = stopIds('sauce', normalize)({
