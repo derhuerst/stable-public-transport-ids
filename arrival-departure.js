@@ -9,7 +9,9 @@ const matrix = (n, m) => m.reduce((l, m) => {
 
 const arrivalDepartureIds = (stopIds, tripIds, routeIds, lineIds, normalizePlatform) => (type, _) => {
 	const when = Math.round(new Date(_.plannedWhen) / 1000)
-	const platform = _.plannedPlatform ? normalizePlatform(_.plannedPlatform) : null
+	const platform = _.plannedPlatform
+		? normalizePlatform(_.plannedPlatform, _)
+		: null
 
 	// This assumes that there are no two vehicles
 	// - running for the same route,

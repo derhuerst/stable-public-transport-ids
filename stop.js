@@ -4,7 +4,8 @@ const {dataVersion: v} = require('./package.json')
 const {grid} = require('./lib/helpers')
 
 const stopIds = (dataSource, normalizeName) => (s) => {
-	const nName = normalizeName(s.station && s.station.name || s.name)
+	const stationOrStop = s.station || s
+	const nName = normalizeName(stationOrStop.name, stationOrStop)
 	const lat = s.location.latitude
 	const lon = s.location.longitude
 	return [

@@ -8,7 +8,12 @@ const stopIds = require('./stop')
 const lineIds = require('./line')
 const arrivalDepartureIds = require('./arrival-departure')
 
-const normalize = n => n.toLowerCase().trim()
+const normalize = (name, thing) => {
+	return [
+		name.toLowerCase().trim(),
+		thing.id ? thing.id[0].toUpperCase() : '-'
+	].join('')
+}
 
 const beginsWith = str => str2 => str2.slice(0, str.length) === str
 
@@ -31,7 +36,7 @@ test('operator OneStop ID', (t) => {
 	})
 
 	const onestopId = ids.find(beginsWith(`${v}:custom:o:`))
-	t.equal(onestopId, `${v}:custom:o:dn:foo~transit`)
+	t.equal(onestopId, `${v}:custom:o:dn:foo~transitF`)
 
 	t.end()
 })
@@ -45,13 +50,14 @@ test('stop IDs', (t) => {
 	})
 	t.deepEqual(ids, [
 		[v, 'sauce', '123'].join(':'), // data src, stop ID
-		[v, 'sauce', 'station:12'].join(':'), // data src, station ID, name
-		[v, 'bar', 12.345.toFixed(4), 23.456.toFixed(4)].join(':'), // normalized name, normalized coords
-		// normalized name, normalized & shifted coords
-		[v, 'bar', 12.345.toFixed(4), (23.456 + .001).toFixed(4)].join(':'),
-		[v, 'bar', 12.345.toFixed(4), (23.456 + .002).toFixed(4)].join(':'),
-		[v, 'bar', (12.345 + .001).toFixed(4), 23.456.toFixed(4)].join(':'),
-		[v, 'bar', (12.345 + .002).toFixed(4), 23.456.toFixed(4)].join(':')
+		[v, 'sauce', 'station:12'].join(':'), // data src, station ID
+		// normalized station name, normalized coords
+		[v, 'bar1', 12.345.toFixed(4), 23.456.toFixed(4)].join(':'),
+		// normalized station name, normalized & shifted coords
+		[v, 'bar1', 12.345.toFixed(4), (23.456 + .001).toFixed(4)].join(':'),
+		[v, 'bar1', 12.345.toFixed(4), (23.456 + .002).toFixed(4)].join(':'),
+		[v, 'bar1', (12.345 + .001).toFixed(4), 23.456.toFixed(4)].join(':'),
+		[v, 'bar1', (12.345 + .002).toFixed(4), 23.456.toFixed(4)].join(':')
 	])
 
 	t.end()
@@ -65,7 +71,7 @@ test('line IDs', (t) => {
 	})
 	t.deepEqual(ids, [
 		[v, 'sauce', '1a'].join(':'), // data src, line ID
-		[v, 'suburban', 'some line'].join(':') // product, normalized name
+		[v, 'suburban', 'some line1'].join(':') // product, normalized name
 	])
 
 	t.end()
@@ -76,7 +82,9 @@ test('arrival/departure IDs', (t) => {
 	const routeIds = ['some-route', 'another:route']
 	const tripIds = ['some-trip', 'another:trip']
 	const lineIds = ['some-line', 'another:line']
-	const normalizePlatform = p => p.toLowerCase().trim()
+	const normalizePlatform = (platform, arrDep) => {
+		return platform.toLowerCase().trim() + arrDep.when[0]
+	}
 
 	const getIds = arrivalDepartureIds(stopIds, tripIds, routeIds, lineIds, normalizePlatform)
 	const ids = getIds('arrival', {
@@ -99,10 +107,10 @@ test('arrival/departure IDs', (t) => {
 		[v, 'arrival', 'another:stop', 'another:route', 1546333800].join(':'),
 
 		// stop ID + line ID + plannedWhen + plannedPlatform
-		[v, 'arrival', 'some-stop', 'some-line', 1546333800, '2a/b'].join(':'),
-		[v, 'arrival', 'another:stop', 'some-line', 1546333800, '2a/b'].join(':'),
-		[v, 'arrival', 'some-stop', 'another:line', 1546333800, '2a/b'].join(':'),
-		[v, 'arrival', 'another:stop', 'another:line', 1546333800, '2a/b'].join(':')
+		[v, 'arrival', 'some-stop', 'some-line', 1546333800, '2a/b2'].join(':'),
+		[v, 'arrival', 'another:stop', 'some-line', 1546333800, '2a/b2'].join(':'),
+		[v, 'arrival', 'some-stop', 'another:line', 1546333800, '2a/b2'].join(':'),
+		[v, 'arrival', 'another:stop', 'another:line', 1546333800, '2a/b2'].join(':')
 	])
 
 	t.end()

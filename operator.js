@@ -60,7 +60,7 @@ const operatorIds = (dataSource, normalizeName) => (o) => {
 	]
 
 	if (o.serviceArea) {
-		const nName = normalizeName(o.name)
+		const nName = normalizeName(o.name, o)
 		const {latitude: lat, longitude: lon} = centerOfMass(o.serviceArea)
 
 		const onestopId = [
