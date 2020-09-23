@@ -67,11 +67,15 @@ test('line IDs', (t) => {
 	const ids = lineIds('sauce', normalize)({
 		id: '1a',
 		name: 'Some Line',
-		product: 'suburban'
+		product: 'suburban',
+		mode: 'train',
+		operator: {id: 'foo-bar baz'}
 	})
 	t.deepEqual(ids, [
 		[v, 'sauce', '1a'].join(':'), // data src, line ID
-		[v, 'suburban', 'some line1'].join(':') // product, normalized name
+		[v, 'foo-bar baz', 'some line1'].join(':'), // operator ID, normalized name
+		[v, 'suburban', 'some line1'].join(':'), // product, normalized name
+		[v, 'train', 'some line1'].join(':'), // mode, normalized name
 	])
 
 	t.end()
