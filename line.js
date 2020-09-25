@@ -1,6 +1,6 @@
 'use strict'
 
-const {dataVersion: v} = require('./package.json')
+const {versionedId} = require('./lib/versioned-id')
 
 const lineIds = (dataSource, normalizeName) => (s) => {
 	return [
@@ -20,7 +20,7 @@ const lineIds = (dataSource, normalizeName) => (s) => {
 		// https://github.com/transitland/transitland-datastore/blob/ce4ad9468882dc22a4c6fbe8b84a69da6c4cef90/app/models/route.rb#L234-L244
 	]
 	.filter(id => id !== null)
-	.map(id => v + ':' + id.join(':'))
+	.map(id => versionedId(id.join(':')))
 }
 
 module.exports = lineIds

@@ -1,12 +1,13 @@
 'use strict'
 
-const {dataVersion: v} = require('./package.json')
+const {versionedId} = require('./lib/versioned-id')
 
 // [1,2], [3,4] -> [[1,3], [1,4], [2,3], [2,4]]
 const matrix = (n, m) => m.reduce((l, m) => {
 	return [...l, ...n.map(n => [n, m])]
 }, [])
 
+// todo: use these IDs without version prefix
 const arrivalDepartureIds = (stopIds, tripIds, routeIds, lineIds, normalizePlatform) => (type, _) => {
 	const when = Math.round(new Date(_.plannedWhen) / 1000)
 	const platform = _.plannedPlatform
@@ -33,7 +34,8 @@ const arrivalDepartureIds = (stopIds, tripIds, routeIds, lineIds, normalizePlatf
 		...matrix(stopIds, tripIds), // todo: arr time
 		...fuzzyByRoute,
 		...fuzzyByLine
-	].map(id => [v, type, ...id].join(':'))
+	]
+	.map(id => versionedId([type, ...id].join(':')))
 }
 
 module.exports = arrivalDepartureIds

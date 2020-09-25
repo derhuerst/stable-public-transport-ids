@@ -1,7 +1,7 @@
 'use strict'
 
-const {dataVersion: v} = require('./package.json')
 const {grid} = require('./lib/helpers')
+const {versionedId} = require('./lib/versioned-id')
 
 const stopIds = (dataSource, normalizeName) => (s) => {
 	const stationOrStop = s.station || s
@@ -24,7 +24,7 @@ const stopIds = (dataSource, normalizeName) => (s) => {
 		// https://github.com/transitland/transitland-datastore/blob/46fedd0d3293fe61ae04e90d0648187dba86064e/app/models/stop.rb#L387-L398
 	]
 	.filter(id => id !== null)
-	.map(id => v + ':' + id)
+	.map(versionedId)
 }
 
 module.exports = stopIds

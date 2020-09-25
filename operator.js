@@ -2,8 +2,8 @@
 
 const {default: bbox} = require('@turf/bbox')
 const {encode: toGeohash} = require('ngeohash')
-const {dataVersion: v} = require('./package.json')
 const {bboxSize, centerOfMass, grid} = require('./lib/helpers')
+const {versionedId} = require('./lib/versioned-id')
 
 // We don't follow the OneStop ID scheme exactly, so we prefix IDs
 // with a custom version to indicate that they are proprietary.
@@ -78,7 +78,7 @@ const operatorIds = (dataSource, normalizeName) => (o) => {
 
 	return ids
 	.filter(id => id !== null)
-	.map(id => v + ':' + id)
+	.map(versionedId)
 }
 
 module.exports = operatorIds
