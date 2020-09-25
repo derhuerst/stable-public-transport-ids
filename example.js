@@ -4,6 +4,7 @@ const slugg = require('slugg')
 const getOperatorIds = require('./operator')
 const getStopIds = require('./stop')
 const getLineIds = require('./line')
+const getTripIds = require('./trip')
 const getArrDepIds = require('./arrival-departure')
 
 const dataSource = 'some-data-source'
@@ -55,18 +56,66 @@ const line = {
 const lineIds = getLineIds(dataSource, normalizeName)(line)
 console.log(lineIds)
 
-const dep = {
-	tripId: 'trip-12345',
-	stop,
-	when: null,
-	plannedWhen: '2017-12-17T19:32:00+01:00',
-	platform: null,
-	plannedPlatform: '2',
-	line,
+
+
+// 19:32 S Charlottenburg 2b
+// |
+// 19:35 U Moritzplatz 3a
+// 19:36 U Moritzplatz 3b
+// |
+// 19:40 S Charlottenburg 4a
+const trip = {
+	id: 'trip-12345',
 	fahrtNr: '12345',
-	direction: 'S Spandau'
+	direction: 'S Spandau',
+	line,
+
+	stopovers: [{
+		stop,
+		plannedArrival: null,
+		plannedArrivalPlatform: null,
+		plannedDeparture: '2017-12-17T19:32:00+01:00',
+		plannedDeparturePlatform: '2b',
+	}, {
+		stop: {
+			type: 'station',
+			id: '900000013101',
+			name: 'U Moritzplatz',
+			location: {latitude: 52.503737, longitude: 13.410944},
+		},
+		plannedDeparture: '2017-12-17T19:35:00+01:00',
+		plannedArrivalPlatform: '3a',
+		plannedDeparture: '2017-12-17T19:36:00+01:00',
+		plannedDeparturePlatform: '3b',
+	}, {
+		stop,
+		plannedArrival: '2017-12-17T19:40:00+01:00',
+		plannedArrivalPlatform: '4a',
+		plannedDeparture: null,
+		plannedDeparturePlatform: null,
+	}],
+}
+
+const depIds = trip.stopovers.map((st) => {
+	const stopIds = getStopIds(dataSource, normalizeName)(st.stop)
+	return getArrDepIds(stopIds, [trip.id], [], lineIds, normalizeName)('departure', st)
+})
+const arrIds = trip.stopovers.map((st) => {
+	const stopIds = getStopIds(dataSource, normalizeName)(st.stop)
+	return getArrDepIds(stopIds, [trip.id], [], lineIds, normalizeName)('arrival', st)
+})
+console.log('trip', getTripIds(dataSource, lineIds, depIds, arrIds)(trip))
+
+const dep0 = {
+	tripId: trip.id,
+	stop,
+	plannedWhen: trip.stopovers[0].plannedDeparture,
+	plannedPlatform: trip.stopovers[0].plannedDeparturePlatform,
+	line,
+	fahrtNr: trip.fahrtNr,
+	direction: trip.direction,
 }
 const routeIds = []
-const tripIds = [dep.tripId]
-const getIds = getArrDepIds(stopIds, tripIds, routeIds, lineIds, normalizeName)
-console.log(getIds('departure', dep))
+const tripIds = [dep0.tripId]
+const getDep0Ids = getArrDepIds(stopIds, tripIds, routeIds, lineIds, normalizeName)
+console.log('departure 0', getDep0Ids('departure', dep0))

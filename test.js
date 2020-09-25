@@ -2,11 +2,13 @@
 
 const test = require('tape')
 const {dataVersion: v} = require('./package.json')
+const {unique: hash} = require('shorthash')
 
 const operatorIds = require('./operator')
 const stopIds = require('./stop')
 const lineIds = require('./line')
 const arrivalDepartureIds = require('./arrival-departure')
+const tripIds = require('./trip')
 
 const normalize = (name, thing) => {
 	return [
@@ -115,6 +117,60 @@ test('arrival/departure IDs', (t) => {
 		[v, 'arrival', 'another:stop', 'some-line', 1546333800, '2a/b2'].join(':'),
 		[v, 'arrival', 'some-stop', 'another:line', 1546333800, '2a/b2'].join(':'),
 		[v, 'arrival', 'another:stop', 'another:line', 1546333800, '2a/b2'].join(':')
+	])
+
+	t.end()
+})
+
+test('trip IDs', (t) => {
+	const lineIds = ['some-line', 'another:line']
+	const depsIds = [
+		['dep0a', 'dep0b', 'dep0c'],
+		['dep1a', 'dep1b', 'dep1c'],
+		['dep2a', 'dep2b'], // note: just 2 IDs
+	]
+	const arrsIds = [
+		['arr0'],
+		['arr1a', 'arr1b'], // note: 2 IDs
+		['arr2'],
+	]
+
+	const ids = tripIds('sauce', lineIds, depsIds, arrsIds)({
+		id: 'trip-12345',
+		fahrtNr: '12345',
+		direction: 'S Spandau',
+		line: {
+			id: '1a',
+			name: 'Some Line',
+			product: 'suburban',
+			mode: 'train',
+		},
+	})
+	t.deepEqual(ids, [
+		[v, 'sauce', 'trip-12345'].join(':'), // data src + trip ID
+
+		// line IDs + fahrt nr
+		[v, 'some-line', '12345'].join(':'),
+		[v, 'another:line', '12345'].join(':'),
+
+		// line ID + first departure ID
+		[v, 'some-line', 'dep0a'].join(':'),
+		[v, 'another:line', 'dep0a'].join(':'),
+		[v, 'some-line', 'dep0b'].join(':'),
+		[v, 'another:line', 'dep0b'].join(':'),
+		[v, 'some-line', 'dep0c'].join(':'),
+		[v, 'another:line', 'dep0c'].join(':'),
+
+		// all departures' IDs
+		v + ':' + hash(['dep0a', 'dep1a', 'dep2a'].join(':')),
+		v + ':' + hash(['dep0b', 'dep1b', 'dep2b'].join(':')),
+
+		// line ID + first arrival ID
+		[v, 'some-line', 'arr0'].join(':'),
+		[v, 'another:line', 'arr0'].join(':'),
+
+		// all arrivals' IDs
+		v + ':' + hash(['arr0', 'arr1a', 'arr2'].join(':')),
 	])
 
 	t.end()

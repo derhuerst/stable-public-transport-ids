@@ -1,7 +1,7 @@
 {
 	"name": "@derhuerst/stable-public-transport-ids",
 	"description": "Get stable IDs for public transport stations, etc.",
-	"version": "1.2.0",
+	"version": "1.3.0",
 	"dataVersion": 1,
 	"main": "index.js",
 	"files": [
@@ -10,6 +10,7 @@
 		"stop.js",
 		"line.js",
 		"arrival-departure.js",
+		"trip.js",
 		"lib"
 	],
 	"keywords": [
@@ -30,7 +31,8 @@
 		"@turf/center-of-mass": "^6.0.1",
 		"@turf/distance": "^6.0.1",
 		"@turf/helpers": "^6.1.4",
-		"ngeohash": "^0.6.3"
+		"ngeohash": "^0.6.3",
+		"shorthash": "0.0.2"
 	},
 	"devDependencies": {
 		"slugg": "^1.2.1",
