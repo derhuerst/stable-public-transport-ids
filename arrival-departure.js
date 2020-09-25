@@ -1,22 +1,18 @@
 'use strict'
 
+const {matrix} = require('./lib/helpers')
 const {versionedId} = require('./lib/versioned-id')
-
-// [1,2], [3,4] -> [[1,3], [1,4], [2,3], [2,4]]
-const matrix = (n, m) => m.reduce((l, m) => {
-	return [...l, ...n.map(n => [n, m])]
-}, [])
 
 // todo: use these IDs without version prefix
 const arrivalDepartureIds = (stopIds, tripIds, routeIds, lineIds, normalizePlatform) => (type, _) => {
-	const when = Math.round(new Date(_.plannedWhen) / 1000)
+	const when = Math.round(Date.parse(_.plannedWhen) / 1000)
 	const platform = _.plannedPlatform
 		? normalizePlatform(_.plannedPlatform, _)
 		: null
 
 	// This assumes that there are no two vehicles
 	// - running for the same route,
-	// - stop at the same station,
+	// - stopping at the same station,
 	// - at the same time.
 	const fuzzyByRoute = !Number.isNaN(when)
 		? matrix(stopIds, routeIds).map(id => [...id, when])
@@ -24,7 +20,7 @@ const arrivalDepartureIds = (stopIds, tripIds, routeIds, lineIds, normalizePlatf
 
 	// This assumes that there are no two vehicles
 	// - running for the same line,
-	// - stop at the same station,
+	// - stopping at the same station,
 	// - at the same platform,
 	// - at the same time.
 	const fuzzyByLine = !Number.isNaN(when) && platform
