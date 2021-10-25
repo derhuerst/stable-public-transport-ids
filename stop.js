@@ -8,6 +8,7 @@ const stopIds = (dataSource, normalizeName) => (s) => {
 	const nName = normalizeName(stationOrStop.name, stationOrStop)
 	const lat = s.location.latitude
 	const lon = s.location.longitude
+	// todo: stop code, e.g. like in GTFS?
 	return [
 		s.wikidataId || null,
 		s.osmId || null,

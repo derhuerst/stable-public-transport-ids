@@ -19,6 +19,7 @@ const tripIds = (dataSource, lineIds, depsIds, arrsIds) => (_) => {
 		_.id ? dataSource + ':' + _.id : null,
 		...byFahrtNr,
 		// todo: use _.direction?
+		// todo: use geographical shape?
 	]
 
 	if (depsIds.length > 0) {
