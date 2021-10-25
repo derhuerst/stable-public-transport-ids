@@ -17,9 +17,13 @@ const stopIds = (dataSource, normalizeName) => (s) => {
 		// todo: breaks closer to/further from the equator
 		[nName, ...grid(lat, lon)].join(':'),
 		[nName, ...grid(lat, lon + .001)].join(':'),
-		[nName, ...grid(lat, lon + .002)].join(':'),
+		[nName, ...grid(lat, lon - .001)].join(':'),
 		[nName, ...grid(lat + .001, lon)].join(':'),
-		[nName, ...grid(lat + .002, lon)].join(':')
+		[nName, ...grid(lat + .001, lon + .001)].join(':'),
+		[nName, ...grid(lat + .001, lon - .001)].join(':'),
+		[nName, ...grid(lat - .001, lon)].join(':'),
+		[nName, ...grid(lat - .001, lon + .001)].join(':'),
+		[nName, ...grid(lat - .001, lon - .001)].join(':')
 		// todo: Onestop ID
 		// https://github.com/transitland/transitland-datastore/blob/46fedd0d3293fe61ae04e90d0648187dba86064e/app/models/stop.rb#L387-L398
 	]
