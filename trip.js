@@ -10,8 +10,9 @@ const tripIds = (dataSource, lineIds, depsIds, arrsIds) => (_) => {
 		throw new Error('depsIds must be an array')
 	}
 
-	const byFahrtNr = _.fahrtNr
-		? lineIds.map(lineId => lineId + ':' + _.fahrtNr)
+	// todo: line.adminCode?
+	const byFahrtNr = _.line.fahrtNr
+		? lineIds.map(lineId => lineId + ':' + _.line.fahrtNr)
 		: []
 
 	let ids = [

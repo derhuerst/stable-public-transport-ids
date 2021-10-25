@@ -141,13 +141,13 @@ test('trip IDs', (t) => {
 
 	const ids = tripIds('sauce', lineIds, depsIds, arrsIds)({
 		id: 'trip-12345',
-		fahrtNr: '12345',
 		direction: 'S Spandau',
 		line: {
 			id: '1a',
 			name: 'Some Line',
 			product: 'suburban',
 			mode: 'train',
+			fahrtNr: '12345',
 		},
 	})
 	t.deepEqual(ids, [
