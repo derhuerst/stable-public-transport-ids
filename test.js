@@ -57,9 +57,13 @@ test('stop IDs', (t) => {
 		[v, 'bar1', 12.345.toFixed(4), 23.456.toFixed(4)].join(':'),
 		// normalized station name, normalized & shifted coords
 		[v, 'bar1', 12.345.toFixed(4), (23.456 + .001).toFixed(4)].join(':'),
-		[v, 'bar1', 12.345.toFixed(4), (23.456 + .002).toFixed(4)].join(':'),
+		[v, 'bar1', 12.345.toFixed(4), (23.456 - .001).toFixed(4)].join(':'),
 		[v, 'bar1', (12.345 + .001).toFixed(4), 23.456.toFixed(4)].join(':'),
-		[v, 'bar1', (12.345 + .002).toFixed(4), 23.456.toFixed(4)].join(':')
+		[v, 'bar1', (12.345 + .001).toFixed(4), (23.456 + .001).toFixed(4)].join(':'),
+		[v, 'bar1', (12.345 + .001).toFixed(4), (23.456 - .001).toFixed(4)].join(':'),
+		[v, 'bar1', (12.345 - .001).toFixed(4), 23.456.toFixed(4)].join(':'),
+		[v, 'bar1', (12.345 - .001).toFixed(4), (23.456 + .001).toFixed(4)].join(':'),
+		[v, 'bar1', (12.345 - .001).toFixed(4), (23.456 - .001).toFixed(4)].join(':'),
 	])
 
 	t.end()
