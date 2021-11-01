@@ -54,9 +54,9 @@ const operatorGeohash = (area) => {
 
 const operatorIds = (dataSource, normalizeName) => (o) => {
 	const ids = [
-		o.wikidataId || null,
-		o.osmId || null,
-		o.id ? dataSource + ':' + o.id : null
+		o.wikidataId ? [o.wikidataId, 10] : null,
+		o.osmId ? [o.osmId, 10] : null,
+		o.id ? [dataSource + ':' + o.id, 20] : null,
 	]
 
 	if (o.serviceArea) {
@@ -71,14 +71,14 @@ const operatorIds = (dataSource, normalizeName) => (o) => {
 		].join(':')
 
 		ids.push(
-			onestopId,
-			[nName, ...grid(lat, lon)].join(':')
+			[onestopId, 30],
+			[[nName, ...grid(lat, lon)].join(':'), 31],
 		)
 	}
 
 	return ids
 	.filter(id => id !== null)
-	.map(versionedId)
+	.map(([id, specificity]) => [versionedId(id), specificity])
 }
 
 module.exports = operatorIds

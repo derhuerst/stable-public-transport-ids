@@ -10,12 +10,22 @@ const arrivalDepartureIds = (stopIds, tripIds, routeIds, lineIds, normalizePlatf
 		? normalizePlatform(_.plannedPlatform, _)
 		: null
 
+	// todo: arr time
+	const byStopAndTrip = matrix(stopIds, tripIds)
+	.map(([[stopId, stopSpecif], [tripId, tripSpecif]]) => [
+		versionedId([type, stopId, tripId].join(':')),
+		stopSpecif + tripSpecif + 20,
+	])
+
 	// This assumes that there are no two vehicles
 	// - running for the same route,
 	// - stopping at the same station,
 	// - at the same time.
 	const fuzzyByRoute = !Number.isNaN(when)
-		? matrix(stopIds, routeIds).map(id => [...id, when])
+		? matrix(stopIds, routeIds).map(([[stopId, stopSpecif], [routeId, routeSpecif]]) => [
+			versionedId([type, stopId, routeId, when].join(':')),
+			stopSpecif + routeSpecif + 30,
+		])
 		: []
 
 	// This assumes that there are no two vehicles
@@ -24,14 +34,17 @@ const arrivalDepartureIds = (stopIds, tripIds, routeIds, lineIds, normalizePlatf
 	// - at the same platform,
 	// - at the same time.
 	const fuzzyByLine = !Number.isNaN(when) && platform
-		? matrix(stopIds, lineIds).map(id => [...id, when, platform])
+		? matrix(stopIds, lineIds).map(([[stopId, stopSpecif], [lineId, lineSpecif]]) => [
+			versionedId([type, stopId, lineId, when, platform].join(':')),
+			stopSpecif + lineSpecif + 30,
+		])
 		: []
+
 	return [
-		...matrix(stopIds, tripIds), // todo: arr time
+		...byStopAndTrip,
 		...fuzzyByRoute,
 		...fuzzyByLine
 	]
-	.map(id => versionedId([type, ...id].join(':')))
 }
 
 module.exports = arrivalDepartureIds

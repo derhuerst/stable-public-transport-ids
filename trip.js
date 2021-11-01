@@ -4,6 +4,15 @@ const {unique: hash} = require('shorthash')
 const {matrix, transpose} = require('./lib/helpers')
 const {versionedId} = require('./lib/versioned-id')
 
+const maxSpecif = (ids) => {
+	let max = 0
+	for (let i = 0; i < ids.length; i++) {
+		const specif = ids[i][1]
+		if (specif > max) max = specif
+	}
+	return max
+}
+
 // todo: use these IDs without version prefix
 const tripIds = (dataSource, lineIds, depsIds, arrsIds) => (_) => {
 	if (!Array.isArray(depsIds)) {
@@ -11,13 +20,13 @@ const tripIds = (dataSource, lineIds, depsIds, arrsIds) => (_) => {
 	}
 
 	// todo: line.adminCode?
-	const byFahrtNr = _.line.fahrtNr
-		? lineIds.map(lineId => lineId + ':' + _.line.fahrtNr)
+	const byLineIdFahrtNr = _.line.fahrtNr
+		? lineIds.map(([lineId, lineSpecif]) => [lineId + ':' + _.line.fahrtNr, lineSpecif + 30])
 		: []
 
 	let ids = [
-		_.id ? dataSource + ':' + _.id : null,
-		...byFahrtNr,
+		_.id ? [dataSource + ':' + _.id, 20] : null,
+		...byLineIdFahrtNr,
 		// todo: use _.direction?
 		// todo: use geographical shape?
 	]
@@ -32,15 +41,22 @@ const tripIds = (dataSource, lineIds, depsIds, arrsIds) => (_) => {
 		// - with the same departure IDs at their first station
 		// todo: this is not always true, find a solution
 		const byLineFirstDep = matrix(lineIds, depsIds[0])
-		.map(id => id.join(':'))
+		.map(([[lineId, lineSpecif], [dep0Id, dep0Specif]]) => [
+			[lineId, dep0Id].join(':'),
+			lineSpecif + dep0Specif + 21,
+		])
 
 		// This assumes that there are no two vehicles
 		// - with the same departure IDs at all their stations
 		// todo: this is not very helpful if one of the departures is
 		// missing a certain "kind" of ID
+		// enumerate all possible permutations?
 		const byAllDeps = transpose(depsIds)
 		.filter(ids => ids.every(id => !!id))
-		.map(ids => hash(ids.join(':')))
+		.map((ids) => [
+			hash(ids.map(([id]) => id).join(':')),
+			maxSpecif(ids) + 20, // pick highest=weakest specificity of all departures
+		])
 
 		ids = [
 			...ids,
@@ -59,15 +75,22 @@ const tripIds = (dataSource, lineIds, depsIds, arrsIds) => (_) => {
 		// - with the same arrival IDs at their first station
 		// todo: this is not always true, find a solution
 		const byLineFirstArr = matrix(lineIds, arrsIds[0])
-		.map(id => id.join(':'))
+		.map(([[lineId, lineSpecif], [arr0Id, arr0Specif]]) => [
+			[lineId, arr0Id].join(':'),
+			lineSpecif + arr0Specif + 21,
+		])
 
 		// This assumes that there are no two vehicles
 		// - with the same arrival IDs at all their stations
 		// todo: this is not very helpful if one of the arrivals is
 		// missing a certain "kind" of ID
+		// enumerate all possible permutations?
 		const byAllArrs = transpose(arrsIds)
 		.filter(ids => ids.every(id => !!id))
-		.map(ids => hash(ids.join(':')))
+		.map((ids) => [
+			hash(ids.map(([id]) => id).join(':')),
+			maxSpecif(ids) + 20, // pick highest=weakest specificity of all arrivals
+		])
 
 		ids = [
 			...ids,
@@ -78,7 +101,7 @@ const tripIds = (dataSource, lineIds, depsIds, arrsIds) => (_) => {
 
 	return ids
 	.filter(id => id !== null)
-	.map(versionedId)
+	.map(([id, specificity]) => [versionedId(id), specificity])
 }
 
 module.exports = tripIds
