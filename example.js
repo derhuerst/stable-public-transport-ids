@@ -83,7 +83,7 @@ const trip = {
 			name: 'U Moritzplatz',
 			location: {latitude: 52.503737, longitude: 13.410944},
 		},
-		plannedDeparture: '2017-12-17T19:35:00+01:00',
+		plannedArrival: '2017-12-17T19:35:00+01:00',
 		plannedArrivalPlatform: '3a',
 		plannedDeparture: '2017-12-17T19:36:00+01:00',
 		plannedDeparturePlatform: '3b',
