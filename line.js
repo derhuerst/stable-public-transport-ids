@@ -7,6 +7,7 @@ const lineIds = (dataSource, normalizeName) => (s) => {
 		s.wikidataId ? [s.wikidataId, 10] : null,
 		s.osmId ? [s.osmId, 10] : null,
 		s.id ? [dataSource + ':' + s.id, 20] : null,
+		// todo [breaking]: use operator IDs
 		s.operator && s.operator.id && s.name
 			? [s.operator.id + ':' + normalizeName(s.name, s), 30]
 			: null,
