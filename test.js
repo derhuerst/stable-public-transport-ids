@@ -72,6 +72,16 @@ test('stop IDs', (t) => {
 		[[v, 'sauce', 'station:12'].join(':'), 50], // data src, station ID
 	])
 
+	const normalizeEmpty = () => ''
+	const ids2 = stopIds('sauce', normalizeEmpty)({
+		id: '123',
+		name: 'Foo',
+		location: {latitude: 12.345, longitude: 23.456},
+	})
+	t.deepEqual(ids2, [
+		[[v, 'sauce', '123'].join(':'), 20], // data src, stop ID
+	])
+
 	t.end()
 })
 
