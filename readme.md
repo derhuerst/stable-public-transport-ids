@@ -3,7 +3,6 @@
 **Get stable IDs for public transport data.**
 
 [![npm version](https://img.shields.io/npm/v/@derhuerst/stable-public-transport-ids.svg)](https://www.npmjs.com/package/@derhuerst/stable-public-transport-ids)
-[![build status](https://api.travis-ci.org/derhuerst/stable-public-transport-ids.svg?branch=master)](https://travis-ci.org/derhuerst/stable-public-transport-ids)
 ![ISC-licensed](https://img.shields.io/github/license/derhuerst/stable-public-transport-ids.svg)
 [![support me via GitHub Sponsors](https://img.shields.io/badge/support%20me-donate-fa7664.svg)](https://github.com/sponsors/derhuerst)
 [![chat with me on Twitter](https://img.shields.io/badge/chat%20with%20me-on%20Twitter-1da1f2.svg)](https://twitter.com/derhuerst)
