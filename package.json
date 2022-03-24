@@ -11,6 +11,7 @@
 		"line.js",
 		"arrival-departure.js",
 		"trip.js",
+		"symbol.js",
 		"lib"
 	],
 	"keywords": [
