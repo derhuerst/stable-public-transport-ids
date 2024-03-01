@@ -80,8 +80,8 @@ const stop = {
 const stopIds = getStopIds(stop)
 console.log(stopIds)
 // [
-// 	'1:some data source:900000024101',
-// 	'1:s charlottenburg:52.50:13.30'
+// 	'2:some data source:900000024101',
+// 	'2:s charlottenburg:52.50:13.30'
 // 	…
 // ]
 
@@ -97,8 +97,8 @@ const lineIds = getLineIds(line)
 
 console.log(lineIds)
 // [
-// 	'1:some data source:18299',
-// 	'1:suburban:s9'
+// 	'2:some data source:18299',
+// 	'2:suburban:s9'
 // ]
 
 const dep = {
@@ -118,8 +118,8 @@ const getArrDepIds = createGetArrDepIds(stopIds, tripIds, routeIds, lineIds, nor
 
 console.log(getArrDepIds('departure', dep))
 // [
-// 	'1:departure:1:some data source:900000024101:trip-12345',
-// 	'1:departure:1:s charlottenburg:52.50:13.30:trip-12345'
+// 	'2:departure:2:some data source:900000024101:trip-12345',
+// 	'2:departure:2:s charlottenburg:52.50:13.30:trip-12345'
 // 	…
 // ]
 ```

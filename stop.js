@@ -7,6 +7,9 @@ const STATION_SPECIFICITY_PENALTY = 20
 
 const createGetStableStopIds = (dataSource, normalizeName) => {
 	const getStableStopIds = (s) => {
+		// If >1 data source has a stop/station hierarchy, we always want to prefer matching stop IDs with each other. However, if both data sources only have parentless stops/stations, or if hierarchic and non-hierarchic data sources are mixed, we still want to be able to obtain a match.
+		const baseSpecificity = s.station ? 0 : STATION_SPECIFICITY_PENALTY
+
 		const stationOrStop = s.station || s
 		const nName = normalizeName(stationOrStop.name, stationOrStop)
 		const lat = s.location.latitude
@@ -15,25 +18,25 @@ const createGetStableStopIds = (dataSource, normalizeName) => {
 
 		const stableIds = [
 			// third-party IDs
-			s.wikidataId ? [s.wikidataId, 10] : null,
-			s.osmId ? [s.osmId, 10] : null,
+			s.wikidataId ? [s.wikidataId, baseSpecificity + 10] : null,
+			s.osmId ? [s.osmId, baseSpecificity + 10] : null,
 
 			// data-source-native ID
-			[dataSource + ':' + s.id, 20],
+			[dataSource + ':' + s.id, baseSpecificity + 20],
 
 			// location-based IDs
 			// overlapping grids to ensure we always match nearby pairs
 			// todo: breaks closer to/further from the equator
 			...(nName ? [
-				[[nName, ...grid(lat, lon)].join(':'), 30],
-				[[nName, ...grid(lat, lon + .001)].join(':'), 31],
-				[[nName, ...grid(lat, lon - .001)].join(':'), 31],
-				[[nName, ...grid(lat + .001, lon)].join(':'), 31],
-				[[nName, ...grid(lat - .001, lon)].join(':'), 31],
-				[[nName, ...grid(lat + .001, lon + .001)].join(':'), 32],
-				[[nName, ...grid(lat + .001, lon - .001)].join(':'), 32],
-				[[nName, ...grid(lat - .001, lon + .001)].join(':'), 32],
-				[[nName, ...grid(lat - .001, lon - .001)].join(':'), 32],
+				[[nName, ...grid(lat, lon)].join(':'), baseSpecificity + 30],
+				[[nName, ...grid(lat, lon + .001)].join(':'), baseSpecificity + 31],
+				[[nName, ...grid(lat, lon - .001)].join(':'), baseSpecificity + 31],
+				[[nName, ...grid(lat + .001, lon)].join(':'), baseSpecificity + 31],
+				[[nName, ...grid(lat - .001, lon)].join(':'), baseSpecificity + 31],
+				[[nName, ...grid(lat + .001, lon + .001)].join(':'), baseSpecificity + 32],
+				[[nName, ...grid(lat + .001, lon - .001)].join(':'), baseSpecificity + 32],
+				[[nName, ...grid(lat - .001, lon + .001)].join(':'), baseSpecificity + 32],
+				[[nName, ...grid(lat - .001, lon - .001)].join(':'), baseSpecificity + 32],
 			] : []),
 
 			// todo: Onestop ID
@@ -44,7 +47,7 @@ const createGetStableStopIds = (dataSource, normalizeName) => {
 		if (s.station) {
 			stableIds.push([
 				dataSource + ':station:' + s.station.id,
-				STATION_SPECIFICITY_PENALTY + 30,
+				baseSpecificity + STATION_SPECIFICITY_PENALTY + 30,
 			])
 		}
 

@@ -2,7 +2,7 @@
 	"name": "@derhuerst/stable-public-transport-ids",
 	"description": "Get stable IDs for public transport stations, etc.",
 	"version": "2.1.0",
-	"dataVersion": 1,
+	"dataVersion": 2,
 	"main": "index.js",
 	"files": [
 		"index.js",

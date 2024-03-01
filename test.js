@@ -69,7 +69,9 @@ test('stop IDs', (t) => {
 		[[v, 'bar1', (12.345 + .001).toFixed(4), (23.456 - .001).toFixed(4)].join(':'), 32],
 		[[v, 'bar1', (12.345 - .001).toFixed(4), (23.456 + .001).toFixed(4)].join(':'), 32],
 		[[v, 'bar1', (12.345 - .001).toFixed(4), (23.456 - .001).toFixed(4)].join(':'), 32],
-		[[v, 'sauce', 'station:12'].join(':'), 50], // data src, station ID
+
+		// parent station IDs
+		[[v, 'sauce', 'station', '12'].join(':'), 30 + 20], // data src, station ID
 	])
 
 	const normalizeEmpty = () => ''
@@ -79,7 +81,7 @@ test('stop IDs', (t) => {
 		location: {latitude: 12.345, longitude: 23.456},
 	})
 	t.deepEqual(ids2, [
-		[[v, 'sauce', '123'].join(':'), 20], // data src, stop ID
+		[[v, 'sauce', '123'].join(':'), 30 + 20], // data src, stop ID
 	])
 
 	t.end()
