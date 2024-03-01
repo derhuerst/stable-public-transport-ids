@@ -1,15 +1,12 @@
 'use strict'
 
 const {grid} = require('./lib/helpers')
-const {versionedId} = require('./lib/versioned-id')
+const {versionedId, versionPrefixLength} = require('./lib/versioned-id')
 
-const STATION_SPECIFICITY_PENALTY = 20
+const STATION_SPECIFICITY_PENALTY = 30
 
 const createGetStableStopIds = (dataSource, normalizeName) => {
-	const getStableStopIds = (s) => {
-		// If >1 data source has a stop/station hierarchy, we always want to prefer matching stop IDs with each other. However, if both data sources only have parentless stops/stations, or if hierarchic and non-hierarchic data sources are mixed, we still want to be able to obtain a match.
-		const baseSpecificity = s.station ? 0 : STATION_SPECIFICITY_PENALTY
-
+	const _getStableStopIds = (s, baseSpecificity) => {
 		const stationOrStop = s.station || s
 		const nName = normalizeName(stationOrStop.name, stationOrStop)
 		const lat = s.location.latitude
@@ -45,15 +42,35 @@ const createGetStableStopIds = (dataSource, normalizeName) => {
 
 		// parent-station-based IDs with lower specificity
 		if (s.station) {
-			stableIds.push([
-				dataSource + ':station:' + s.station.id,
-				baseSpecificity + STATION_SPECIFICITY_PENALTY + 30,
-			])
+			const _stationIds = _getStableStopIds(
+				s.station,
+				baseSpecificity + STATION_SPECIFICITY_PENALTY,
+			)
+
+			stableIds.push(
+				// These IDs a clearly marked as only describing the stop's parent station …
+				..._stationIds.map(([id, specificity]) => [
+					// add `station:` prefix to already versioned ID
+					id.slice(0, versionPrefixLength) + 'station:' + id.slice(versionPrefixLength),
+					specificity,
+				]),
+				// … but it might be that another data source only has the parent station, so that its stable IDs would never match our "parent-station-based" IDs. So we add regular ones along with an even lower specificity.
+				..._stationIds.map(([id, specificity]) => [
+					id,
+					STATION_SPECIFICITY_PENALTY + specificity,
+				]),
+			)
 		}
 
 		return stableIds
 		.filter(id => id !== null)
 		.map(([id, specificity]) => [versionedId(id), specificity])
+	}
+
+	const getStableStopIds = (s) => {
+		// If >1 data source has a stop/station hierarchy, we always want to prefer matching stop IDs with each other, "locally". However, if both data sources only have parentless stops/stations, or if hierarchic and non-hierarchic data sources are mixed, we still want to be able to obtain a match.
+		const baseSpecificity = s.station ? 0 : STATION_SPECIFICITY_PENALTY
+		return _getStableStopIds(s, baseSpecificity)
 	}
 	return getStableStopIds
 }

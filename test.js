@@ -53,10 +53,16 @@ test('stop IDs', (t) => {
 	const ids = stopIds('sauce', normalize)({
 		id: '123',
 		name: 'Foo',
-		station: {id: '12', name: 'Bar'},
+		station: {
+			id: '12',
+			name: 'Bar',
+			location: {latitude: 54.321, longitude: 65.432},
+			wikidataId: 'Q1097', // Berlin central station's ID
+		},
 		location: {latitude: 12.345, longitude: 23.456}
 	})
 	t.deepEqual(ids, [
+		// stop IDs
 		[[v, 'sauce', '123'].join(':'), 20], // data src, stop ID
 		// normalized stop name, normalized coords
 		[[v, 'bar1', 12.345.toFixed(4), 23.456.toFixed(4)].join(':'), 30],
@@ -71,7 +77,30 @@ test('stop IDs', (t) => {
 		[[v, 'bar1', (12.345 - .001).toFixed(4), (23.456 - .001).toFixed(4)].join(':'), 32],
 
 		// parent station IDs
-		[[v, 'sauce', 'station', '12'].join(':'), 30 + 20], // data src, station ID
+		[[v, 'station', 'Q1097'].join(':'), 30 + 10],
+		[[v, 'station', 'sauce', '12'].join(':'), 30 + 20],
+		[[v, 'station', 'bar1', 54.321.toFixed(4), 65.432.toFixed(4)].join(':'), 30 + 30],
+		[[v, 'station', 'bar1', 54.321.toFixed(4), (65.432 + .001).toFixed(4)].join(':'), 30 + 31],
+		[[v, 'station', 'bar1', 54.321.toFixed(4), (65.432 - .001).toFixed(4)].join(':'), 30 + 31],
+		[[v, 'station', 'bar1', (54.321 + .001).toFixed(4), 65.432.toFixed(4)].join(':'), 30 + 31],
+		[[v, 'station', 'bar1', (54.321 - .001).toFixed(4), 65.432.toFixed(4)].join(':'), 30 + 31],
+		[[v, 'station', 'bar1', (54.321 + .001).toFixed(4), (65.432 + .001).toFixed(4)].join(':'), 30 + 32],
+		[[v, 'station', 'bar1', (54.321 + .001).toFixed(4), (65.432 - .001).toFixed(4)].join(':'), 30 + 32],
+		[[v, 'station', 'bar1', (54.321 - .001).toFixed(4), (65.432 + .001).toFixed(4)].join(':'), 30 + 32],
+		[[v, 'station', 'bar1', (54.321 - .001).toFixed(4), (65.432 - .001).toFixed(4)].join(':'), 30 + 32],
+
+		// station IDs as stop IDs
+		[[v, 'Q1097'].join(':'), 30 + 30 + 10],
+		[[v, 'sauce', '12'].join(':'), 30 + 30 + 20],
+		[[v, 'bar1', 54.321.toFixed(4), 65.432.toFixed(4)].join(':'), 30 + 30 + 30],
+		[[v, 'bar1', 54.321.toFixed(4), (65.432 + .001).toFixed(4)].join(':'), 30 + 30 + 31],
+		[[v, 'bar1', 54.321.toFixed(4), (65.432 - .001).toFixed(4)].join(':'), 30 + 30 + 31],
+		[[v, 'bar1', (54.321 + .001).toFixed(4), 65.432.toFixed(4)].join(':'), 30 + 30 + 31],
+		[[v, 'bar1', (54.321 - .001).toFixed(4), 65.432.toFixed(4)].join(':'), 30 + 30 + 31],
+		[[v, 'bar1', (54.321 + .001).toFixed(4), (65.432 + .001).toFixed(4)].join(':'), 30 + 30 + 32],
+		[[v, 'bar1', (54.321 + .001).toFixed(4), (65.432 - .001).toFixed(4)].join(':'), 30 + 30 + 32],
+		[[v, 'bar1', (54.321 - .001).toFixed(4), (65.432 + .001).toFixed(4)].join(':'), 30 + 30 + 32],
+		[[v, 'bar1', (54.321 - .001).toFixed(4), (65.432 - .001).toFixed(4)].join(':'), 30 + 30 + 32],
 	])
 
 	const normalizeEmpty = () => ''
