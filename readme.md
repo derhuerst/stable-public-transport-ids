@@ -118,8 +118,8 @@ const getArrDepIds = createGetArrDepIds(stopIds, tripIds, routeIds, lineIds, nor
 
 console.log(getArrDepIds('departure', dep))
 // [
-// 	'2:departure:some data source:900000024101:trip-12345',
-// 	'2:departure:s charlottenburg:52.50:13.30:trip-12345'
+// 	'2:dep:some data source:900000024101:trip-12345',
+// 	'2:dep:s charlottenburg:52.50:13.30:trip-12345'
 // 	…
 // ]
 ```

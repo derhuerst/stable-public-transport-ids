@@ -152,22 +152,22 @@ test('arrival/departure IDs', (t) => {
 	})
 	t.deepEqual(ids, [
 		// stop ID + trip ID
-		[[v, 'arrival', 'some-stop', 'some-trip'].join(':'), 20 + 30 + 20],
-		[[v, 'arrival', 'another:stop', 'some-trip'].join(':'), 31 + 30 + 20],
-		[[v, 'arrival', 'some-stop', 'another:trip'].join(':'), 20 + 30 + 20],
-		[[v, 'arrival', 'another:stop', 'another:trip'].join(':'), 31 + 30 + 20],
+		[[v, 'arr', 'some-stop', 'some-trip'].join(':'), 20 + 30 + 20],
+		[[v, 'arr', 'another:stop', 'some-trip'].join(':'), 31 + 30 + 20],
+		[[v, 'arr', 'some-stop', 'another:trip'].join(':'), 20 + 30 + 20],
+		[[v, 'arr', 'another:stop', 'another:trip'].join(':'), 31 + 30 + 20],
 
 		// stop ID + route ID + plannedWhen
-		[[v, 'arrival', 'some-stop', 'some-route', 1546333800].join(':'), 20 + 10 + 30],
-		[[v, 'arrival', 'another:stop', 'some-route', 1546333800].join(':'), 31 + 10 + 30],
-		[[v, 'arrival', 'some-stop', 'another:route', 1546333800].join(':'), 20 + 20 + 30],
-		[[v, 'arrival', 'another:stop', 'another:route', 1546333800].join(':'), 31 + 20 + 30],
+		[[v, 'arr', 'some-stop', 'some-route', 1546333800].join(':'), 20 + 10 + 30],
+		[[v, 'arr', 'another:stop', 'some-route', 1546333800].join(':'), 31 + 10 + 30],
+		[[v, 'arr', 'some-stop', 'another:route', 1546333800].join(':'), 20 + 20 + 30],
+		[[v, 'arr', 'another:stop', 'another:route', 1546333800].join(':'), 31 + 20 + 30],
 
 		// stop ID + line ID + plannedWhen + plannedPlatform
-		[[v, 'arrival', 'some-stop', 'some-line', 1546333800, '2a/b2'].join(':'), 20 + 10 + 30],
-		[[v, 'arrival', 'another:stop', 'some-line', 1546333800, '2a/b2'].join(':'), 31 + 10 + 30],
-		[[v, 'arrival', 'some-stop', 'another:line', 1546333800, '2a/b2'].join(':'), 20 + 11 + 30],
-		[[v, 'arrival', 'another:stop', 'another:line', 1546333800, '2a/b2'].join(':'), 31 + 11 + 30],
+		[[v, 'arr', 'some-stop', 'some-line', 1546333800, '2a/b2'].join(':'), 20 + 10 + 30],
+		[[v, 'arr', 'another:stop', 'some-line', 1546333800, '2a/b2'].join(':'), 31 + 10 + 30],
+		[[v, 'arr', 'some-stop', 'another:line', 1546333800, '2a/b2'].join(':'), 20 + 11 + 30],
+		[[v, 'arr', 'another:stop', 'another:line', 1546333800, '2a/b2'].join(':'), 31 + 11 + 30],
 	])
 
 	t.end()

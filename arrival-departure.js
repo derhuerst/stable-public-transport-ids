@@ -14,7 +14,7 @@ const arrivalDepartureIds = (stopIds, tripIds, routeIds, lineIds, normalizePlatf
 	const byStopAndTrip = matrix(stopIds, tripIds)
 	.map(([[stopId, stopSpecif], [tripId, tripSpecif]]) => [
 		versionedId([
-			type,
+			type.slice(0, 3),
 			unversionedId(stopId),
 			unversionedId(tripId),
 		].join(':')),
@@ -28,7 +28,7 @@ const arrivalDepartureIds = (stopIds, tripIds, routeIds, lineIds, normalizePlatf
 	const fuzzyByRoute = !Number.isNaN(when)
 		? matrix(stopIds, routeIds).map(([[stopId, stopSpecif], [routeId, routeSpecif]]) => [
 			versionedId([
-				type,
+				type.slice(0, 3),
 				unversionedId(stopId),
 				unversionedId(routeId),
 				when,
@@ -45,7 +45,7 @@ const arrivalDepartureIds = (stopIds, tripIds, routeIds, lineIds, normalizePlatf
 	const fuzzyByLine = !Number.isNaN(when) && platform
 		? matrix(stopIds, lineIds).map(([[stopId, stopSpecif], [lineId, lineSpecif]]) => [
 			versionedId([
-				type,
+				type.slice(0, 3),
 				unversionedId(stopId),
 				unversionedId(lineId),
 				when,
