@@ -1,7 +1,7 @@
 'use strict'
 
 const {matrix} = require('./lib/helpers')
-const {versionedId} = require('./lib/versioned-id')
+const {versionedId, idWithoutVersion: unversionedId} = require('./lib/versioned-id')
 
 // todo: use these IDs without version prefix
 const arrivalDepartureIds = (stopIds, tripIds, routeIds, lineIds, normalizePlatform) => (type, _) => {
@@ -13,29 +13,44 @@ const arrivalDepartureIds = (stopIds, tripIds, routeIds, lineIds, normalizePlatf
 	// todo: arr time
 	const byStopAndTrip = matrix(stopIds, tripIds)
 	.map(([[stopId, stopSpecif], [tripId, tripSpecif]]) => [
-		versionedId([type, stopId, tripId].join(':')),
+		versionedId([
+			type,
+			unversionedId(stopId),
+			unversionedId(tripId),
+		].join(':')),
 		stopSpecif + tripSpecif + 20,
 	])
 
 	// This assumes that there are no two vehicles
 	// - running for the same route,
-	// - stopping at the same station,
+	// - stopping at the same stop/station,
 	// - at the same time.
 	const fuzzyByRoute = !Number.isNaN(when)
 		? matrix(stopIds, routeIds).map(([[stopId, stopSpecif], [routeId, routeSpecif]]) => [
-			versionedId([type, stopId, routeId, when].join(':')),
+			versionedId([
+				type,
+				unversionedId(stopId),
+				unversionedId(routeId),
+				when,
+			].join(':')),
 			stopSpecif + routeSpecif + 30,
 		])
 		: []
 
 	// This assumes that there are no two vehicles
 	// - running for the same line,
-	// - stopping at the same station,
+	// - stopping at the same stop/station,
 	// - at the same platform,
 	// - at the same time.
 	const fuzzyByLine = !Number.isNaN(when) && platform
 		? matrix(stopIds, lineIds).map(([[stopId, stopSpecif], [lineId, lineSpecif]]) => [
-			versionedId([type, stopId, lineId, when, platform].join(':')),
+			versionedId([
+				type,
+				unversionedId(stopId),
+				unversionedId(lineId),
+				when,
+				platform,
+			].join(':')),
 			stopSpecif + lineSpecif + 30,
 		])
 		: []
