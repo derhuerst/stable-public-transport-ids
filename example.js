@@ -1,11 +1,9 @@
-'use strict'
-
-const slugg = require('slugg')
-const getOperatorIds = require('./operator')
-const getStopIds = require('./stop')
-const getLineIds = require('./line')
-const getTripIds = require('./trip')
-const getArrDepIds = require('./arrival-departure')
+import slugg from 'slugg'
+import {createGetStableOperatorIds as getOperatorIds} from './operator.js'
+import {createGetStableStopIds as getStopIds} from './stop.js'
+import {createGetStableLineIds as getLineIds} from './line.js'
+import {createGetStableTripIds as getTripIds} from './trip.js'
+import {createGetStableArrivalDepartureIds as getArrDepIds} from './arrival-departure.js'
 
 const dataSource = 'some-data-source'
 const normalizeName = slugg

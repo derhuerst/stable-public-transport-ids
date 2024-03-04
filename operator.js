@@ -1,9 +1,8 @@
-'use strict'
-
-const {default: bbox} = require('@turf/bbox')
-const {encode: toGeohash} = require('ngeohash')
-const {bboxSize, centerOfMass, grid} = require('./lib/helpers')
-const {versionedId} = require('./lib/versioned-id')
+import bbox from '@turf/bbox'
+import _ngeohash from 'ngeohash'
+const {encode: toGeohash} = _ngeohash
+import {bboxSize, centerOfMass, grid} from './lib/helpers.js'
+import {versionedId} from './lib/versioned-id.js'
 
 // We don't follow the OneStop ID scheme exactly, so we prefix IDs
 // with a custom version to indicate that they are proprietary.
@@ -52,7 +51,7 @@ const operatorGeohash = (area) => {
 	return toGeohash(latitude, longitude, precision)
 }
 
-const operatorIds = (dataSource, normalizeName) => (o) => {
+const createGetStableOperatorIds = (dataSource, normalizeName) => (o) => {
 	const ids = [
 		o.wikidataId ? [o.wikidataId, 10] : null,
 		o.osmId ? [o.osmId, 10] : null,
@@ -81,4 +80,6 @@ const operatorIds = (dataSource, normalizeName) => (o) => {
 	.map(([id, specificity]) => [versionedId(id), specificity])
 }
 
-module.exports = operatorIds
+export {
+	createGetStableOperatorIds,
+}

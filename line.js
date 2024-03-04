@@ -1,8 +1,6 @@
-'use strict'
+import {versionedId} from './lib/versioned-id.js'
 
-const {versionedId} = require('./lib/versioned-id')
-
-const lineIds = (dataSource, normalizeName) => (s) => {
+const createGetStableLineIds = (dataSource, normalizeName) => (s) => {
 	return [
 		s.wikidataId ? [s.wikidataId, 10] : null,
 		s.osmId ? [s.osmId, 10] : null,
@@ -24,4 +22,6 @@ const lineIds = (dataSource, normalizeName) => (s) => {
 	.map(([id, specificity]) => [versionedId(id), specificity])
 }
 
-module.exports = lineIds
+export {
+	createGetStableLineIds,
+}

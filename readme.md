@@ -40,6 +40,8 @@ For each supported "type", this package exposes a function that generates a list
 As an example, the function `areStopsTheSame` checks if two stops are the same:
 
 ```js
+import {createGetStableStopIds} from '@derhuerst/stable-public-transport-ids/stop.js'
+
 // This string will be used for all non-globally-unique pieces
 // of identifying information (e.g. IDs from the provider).
 // You could use the canonical abbreviation of the transit operator.
@@ -51,9 +53,7 @@ const dataSource = 'some-data-source'
 // - remove inconsistent spaces
 // - remove vendor-/API-specific prefixes & suffixes
 const normalizeName = name => name.toLowerCase().trim().replace(/\s+/, '-')
-
-const createGetStopIds = require('@derhuerst/stable-public-transport-ids/stop')
-const getStopIds = createGetStopIds(dataSource, normalizeName)
+const getStopIds = createGetStableStopIds(dataSource, normalizeName)
 
 const areStopsTheSame = (stopA, stopB) => {
 	const idsForA = getStopIds(stopA)
@@ -64,8 +64,8 @@ const areStopsTheSame = (stopA, stopB) => {
 We can generate IDs for stops, lines & departures/arrivals as follows:
 
 ```js
-const createGetLineIds = require('@derhuerst/stable-public-transport-ids/line')
-const createGetArrDepIds = require('@derhuerst/stable-public-transport-ids/arrival-departure')
+import {createGetStableLineIds} from '@derhuerst/stable-public-transport-ids/line.js'
+import {createGetStableDepartureIds} from '@derhuerst/stable-public-transport-ids/arrival-departure.js'
 
 const stop = {
 	type: 'station',
@@ -92,7 +92,7 @@ const line = {
 	public: true,
 	name: 'S9'
 }
-const getLineIds = createGetLineIds(dataSource, normalizeName)
+const getLineIds = createGetStableLineIds(dataSource, normalizeName)
 const lineIds = getLineIds(line)
 
 console.log(lineIds)
@@ -113,10 +113,13 @@ const dep = {
 	direction: 'S Spandau'
 }
 const routeIds = []
-const tripIds = [dep.tripId]
-const getArrDepIds = createGetArrDepIds(stopIds, tripIds, routeIds, lineIds, normalizeName)
+const tripIds = [['some-data-source' + dep.tripId, 20]]
+const getDepIds = createGetStableDepartureIds(
+	stopIds, tripIds, routeIds, lineIds,
+	normalizeName,
+)
 
-console.log(getArrDepIds('departure', dep))
+console.log(getDepIds('departure', dep))
 // [
 // 	'2:dep:some data source:900000024101:trip-12345',
 // 	'2:dep:s charlottenburg:52.50:13.30:trip-12345'

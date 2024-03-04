@@ -1,11 +1,9 @@
-'use strict'
-
-const {Suite} = require('benchmark')
-const getOperatorIds = require('./operator')
-const getStopIds = require('./stop')
-const getLineIds = require('./line')
-const getTripIds = require('./trip')
-const getArrDepIds = require('./arrival-departure')
+import {Suite} from 'benchmark'
+import {createGetStableOperatorIds as getOperatorIds} from './operator.js'
+import {createGetStableStopIds as getStopIds} from './stop.js'
+import {createGetStableLineIds as getLineIds} from './line.js'
+import {createGetStableTripIds as getTripIds} from './trip.js'
+import {createGetStableArrivalDepartureIds as getArrDepIds} from './arrival-departure.js'
 
 const dataSource = 'src'
 const normalizeName = n => n.toLowerCase()

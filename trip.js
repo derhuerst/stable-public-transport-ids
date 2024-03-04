@@ -1,8 +1,6 @@
-'use strict'
-
-const {unique: hash} = require('shorthash')
-const {matrix, transpose} = require('./lib/helpers')
-const {versionedId, idWithoutVersion: unversionedId} = require('./lib/versioned-id')
+import {unique as hash} from 'shorthash'
+import {matrix, transpose} from './lib/helpers.js'
+import {versionedId, idWithoutVersion as unversionedId} from './lib/versioned-id.js'
 
 const maxSpecif = (ids) => {
 	let max = 0
@@ -112,4 +110,6 @@ const tripIds = (dataSource, lineIds, depsIds, arrsIds) => (_) => {
 	.map(([id, specificity]) => [versionedId(id), specificity])
 }
 
-module.exports = tripIds
+export {
+	tripIds as createGetStableTripIds,
+}

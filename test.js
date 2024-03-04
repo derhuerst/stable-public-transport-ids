@@ -1,15 +1,18 @@
-'use strict'
+// todo: use import assertions once they're supported by Node.js & ESLint
+// https://github.com/tc39/proposal-import-assertions
+import {createRequire} from 'module';
+const require = createRequire(import.meta.url);
 
-const test = require('tape')
+import test from 'tape'
 const {dataVersion: v} = require('./package.json')
-const {unique: hash} = require('shorthash')
+import {unique as hash} from 'shorthash'
 
-const operatorIds = require('./operator')
-const stopIds = require('./stop')
-const lineIds = require('./line')
-const arrivalDepartureIds = require('./arrival-departure')
-const tripIds = require('./trip')
-const {versionedId} = require('./lib/versioned-id')
+import {createGetStableOperatorIds as operatorIds} from './operator.js'
+import {createGetStableStopIds as stopIds} from './stop.js'
+import {createGetStableLineIds as lineIds} from './line.js'
+import {createGetStableArrivalDepartureIds as arrivalDepartureIds} from './arrival-departure.js'
+import {createGetStableTripIds as tripIds} from './trip.js'
+import {versionedId} from './lib/versioned-id.js'
 
 const normalize = (name, thing) => {
 	return [

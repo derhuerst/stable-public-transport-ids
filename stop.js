@@ -1,7 +1,5 @@
-'use strict'
-
-const {grid} = require('./lib/helpers')
-const {versionedId, versionPrefixLength} = require('./lib/versioned-id')
+import {grid} from './lib/helpers.js'
+import {versionedId, versionPrefixLength} from './lib/versioned-id.js'
 
 const STATION_SPECIFICITY_PENALTY = 30
 
@@ -75,4 +73,6 @@ const createGetStableStopIds = (dataSource, normalizeName) => {
 	return getStableStopIds
 }
 
-module.exports = createGetStableStopIds
+export {
+	createGetStableStopIds,
+}

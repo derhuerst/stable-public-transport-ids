@@ -1,10 +1,8 @@
-'use strict'
-
-const {matrix} = require('./lib/helpers')
-const {versionedId, idWithoutVersion: unversionedId} = require('./lib/versioned-id')
+import {matrix} from './lib/helpers.js'
+import {versionedId, idWithoutVersion as unversionedId} from './lib/versioned-id.js'
 
 // todo: use these IDs without version prefix
-const arrivalDepartureIds = (stopIds, tripIds, routeIds, lineIds, normalizePlatform) => (type, _) => {
+const createGetStableArrivalDepartureIds = (stopIds, tripIds, routeIds, lineIds, normalizePlatform) => (type, _) => {
 	const when = Math.round(Date.parse(_.plannedWhen) / 1000)
 	const platform = _.plannedPlatform
 		? normalizePlatform(_.plannedPlatform, _)
@@ -62,4 +60,17 @@ const arrivalDepartureIds = (stopIds, tripIds, routeIds, lineIds, normalizePlatf
 	]
 }
 
-module.exports = arrivalDepartureIds
+const createGetStableArrivalIds = (...args) => {
+	const getStableArrivalIds = createGetStableArrivalDepartureIds(...args).bind(null, 'arrival')
+	return getStableArrivalIds
+}
+const createGetStableDepartureIds = (...args) => {
+	const getStableDepartureIds = createGetStableArrivalDepartureIds(...args).bind(null, 'departure')
+	return getStableDepartureIds
+}
+
+export {
+	createGetStableArrivalDepartureIds,
+	createGetStableArrivalIds,
+	createGetStableDepartureIds,
+}
