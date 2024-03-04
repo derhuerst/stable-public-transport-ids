@@ -29,7 +29,7 @@ const operator = {
 	}
 }
 const operatorIds = getOperatorIds(dataSource, normalizeName)(operator)
-console.log(operatorIds)
+console.log('operatorIds', operatorIds)
 
 const stop = {
 	type: 'station',
@@ -42,17 +42,18 @@ const stop = {
 	}
 }
 const stopIds = getStopIds(dataSource, normalizeName)(stop)
-console.log(stopIds)
+console.log('stopIds', stopIds)
 
 const line = {
 	type: 'line',
 	id: '18299',
 	product: 'suburban',
 	public: true,
-	name: 'S9'
+	name: 'S9',
+	fahrtNr: '12345',
 }
 const lineIds = getLineIds(dataSource, normalizeName)(line)
-console.log(lineIds)
+console.log('lineIds', lineIds)
 
 
 
@@ -64,7 +65,6 @@ console.log(lineIds)
 // 19:40 S Charlottenburg 4a
 const trip = {
 	id: 'trip-12345',
-	fahrtNr: '12345',
 	direction: 'S Spandau',
 	line,
 
@@ -96,13 +96,19 @@ const trip = {
 
 const depIds = trip.stopovers.map((st) => {
 	const stopIds = getStopIds(dataSource, normalizeName)(st.stop)
-	return getArrDepIds(stopIds, [trip.id], [], lineIds, normalizeName)('departure', st)
+	return getArrDepIds(stopIds, [[trip.id, 20]], [], lineIds, normalizeName)('departure', st)
 })
+console.log('depIds', depIds)
 const arrIds = trip.stopovers.map((st) => {
 	const stopIds = getStopIds(dataSource, normalizeName)(st.stop)
-	return getArrDepIds(stopIds, [trip.id], [], lineIds, normalizeName)('arrival', st)
+	return getArrDepIds(stopIds, [[trip.id, 20]], [], lineIds, normalizeName)('arrival', st)
 })
-console.log('trip', getTripIds(dataSource, lineIds, depIds, arrIds)(trip))
+console.log('arrIds', arrIds)
+
+{
+	const tripIds = getTripIds(dataSource, lineIds, depIds, arrIds)(trip)
+	console.log('tripIds', tripIds)
+}
 
 const dep0 = {
 	tripId: trip.id,
@@ -114,6 +120,6 @@ const dep0 = {
 	direction: trip.direction,
 }
 const routeIds = []
-const tripIds = [dep0.tripId]
+const tripIds = [[dep0.tripId, 20]]
 const getDep0Ids = getArrDepIds(stopIds, tripIds, routeIds, lineIds, normalizeName)
-console.log('departure 0', getDep0Ids('departure', dep0))
+console.log('dep0Ids', getDep0Ids('departure', dep0))
