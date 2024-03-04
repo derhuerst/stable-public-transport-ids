@@ -43,6 +43,7 @@ const tripIds = (dataSource, lineIds, depsIds, arrsIds) => (_) => {
 		const byLineFirstDep = matrix(lineIds, depsIds[0])
 		.map(([[lineId, lineSpecif], [dep0Id, dep0Specif]]) => [
 			[
+				'dep0',
 				unversionedId(lineId),
 				unversionedId(dep0Id),
 			].join(':'),
@@ -57,7 +58,7 @@ const tripIds = (dataSource, lineIds, depsIds, arrsIds) => (_) => {
 		const byAllDeps = transpose(depsIds)
 		.filter(ids => ids.every(id => !!id))
 		.map((ids) => [
-			hash(ids.map(([id]) => unversionedId(id)).join(':')),
+			'some-dep:' + hash(ids.map(([id]) => unversionedId(id)).join(':')),
 			maxSpecif(ids) + 20, // pick highest=weakest specificity of all departures
 		])
 
@@ -80,6 +81,7 @@ const tripIds = (dataSource, lineIds, depsIds, arrsIds) => (_) => {
 		const byLineFirstArr = matrix(lineIds, arrsIds[0])
 		.map(([[lineId, lineSpecif], [arr0Id, arr0Specif]]) => [
 			[
+				'arr0',
 				unversionedId(lineId),
 				unversionedId(arr0Id),
 			].join(':'),
@@ -94,7 +96,7 @@ const tripIds = (dataSource, lineIds, depsIds, arrsIds) => (_) => {
 		const byAllArrs = transpose(arrsIds)
 		.filter(ids => ids.every(id => !!id))
 		.map((ids) => [
-			hash(ids.map(([id]) => unversionedId(id)).join(':')),
+			'some-arr:' + hash(ids.map(([id]) => unversionedId(id)).join(':')),
 			maxSpecif(ids) + 20, // pick highest=weakest specificity of all arrivals
 		])
 

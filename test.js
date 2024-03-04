@@ -206,23 +206,23 @@ test('trip IDs', (t) => {
 		[[v, 'another:line', '12345'].join(':'), 11 + 30],
 
 		// line ID + first departure ID
-		[[v, 'some-line', 'dep0a'].join(':'), 40 + 10 + 21],
-		[[v, 'another:line', 'dep0a'].join(':'), 40 + 11 + 21],
-		[[v, 'some-line', 'dep0b'].join(':'), 50 + 10 + 21],
-		[[v, 'another:line', 'dep0b'].join(':'), 50 + 11 + 21],
-		[[v, 'some-line', 'dep0c'].join(':'), 51 + 10 + 21],
-		[[v, 'another:line', 'dep0c'].join(':'), 51 + 11 + 21],
+		[[v, 'dep0', 'some-line', 'dep0a'].join(':'), 40 + 10 + 21],
+		[[v, 'dep0', 'another:line', 'dep0a'].join(':'), 40 + 11 + 21],
+		[[v, 'dep0', 'some-line', 'dep0b'].join(':'), 50 + 10 + 21],
+		[[v, 'dep0', 'another:line', 'dep0b'].join(':'), 50 + 11 + 21],
+		[[v, 'dep0', 'some-line', 'dep0c'].join(':'), 51 + 10 + 21],
+		[[v, 'dep0', 'another:line', 'dep0c'].join(':'), 51 + 11 + 21],
 
 		// all departures' IDs
-		[v + ':' + hash(['dep0a', 'dep1a', 'dep2a'].join(':')), 40 + 20],
-		[v + ':' + hash(['dep0b', 'dep1b', 'dep2b'].join(':')), 50 + 20],
+		[v + ':some-dep:' + hash(['dep0a', 'dep1a', 'dep2a'].join(':')), 40 + 20],
+		[v + ':some-dep:' + hash(['dep0b', 'dep1b', 'dep2b'].join(':')), 50 + 20],
 
 		// line ID + first arrival ID
-		[[v, 'some-line', 'arr0'].join(':'), 42 + 10 + 21],
-		[[v, 'another:line', 'arr0'].join(':'), 42 + 11 + 21],
+		[[v, 'arr0', 'some-line', 'arr0'].join(':'), 42 + 10 + 21],
+		[[v, 'arr0', 'another:line', 'arr0'].join(':'), 42 + 11 + 21],
 
 		// all arrivals' IDs
-		[v + ':' + hash(['arr0', 'arr1a', 'arr2'].join(':')), 50 + 20],
+		[v + ':some-arr:' + hash(['arr0', 'arr1a', 'arr2'].join(':')), 50 + 20],
 	])
 
 	t.end()
