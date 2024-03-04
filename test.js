@@ -9,6 +9,7 @@ const stopIds = require('./stop')
 const lineIds = require('./line')
 const arrivalDepartureIds = require('./arrival-departure')
 const tripIds = require('./trip')
+const {versionedId} = require('./lib/versioned-id')
 
 const normalize = (name, thing) => {
 	return [
@@ -176,13 +177,13 @@ test('arrival/departure IDs', (t) => {
 test('trip IDs', (t) => {
 	const lineIds = [['some-line', 10], ['another:line', 11]]
 	const depsIds = [
-		[['dep0a', 40], ['dep0b', 50], ['dep0c', 51]],
-		[['dep1a', 40], ['dep1b', 41], ['dep1c', 50]],
+		[[versionedId('dep0a'), 40], ['dep0b', 50], ['dep0c', 51]],
+		[['dep1a', 40], [versionedId('dep1b'), 41], ['dep1c', 50]],
 		[['dep2a', 30], ['dep2b', 50]], // note: just 2 IDs
 	]
 	const arrsIds = [
 		[['arr0', 42]],
-		[['arr1a', 40], ['arr1b', 60]], // note: 2 IDs
+		[[versionedId('arr1a'), 40], ['arr1b', 60]], // note: 2 IDs
 		[['arr2', 50]],
 	]
 

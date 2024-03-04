@@ -2,7 +2,7 @@
 
 const {unique: hash} = require('shorthash')
 const {matrix, transpose} = require('./lib/helpers')
-const {versionedId} = require('./lib/versioned-id')
+const {versionedId, idWithoutVersion: unversionedId} = require('./lib/versioned-id')
 
 const maxSpecif = (ids) => {
 	let max = 0
@@ -42,7 +42,10 @@ const tripIds = (dataSource, lineIds, depsIds, arrsIds) => (_) => {
 		// todo: this is not always true, find a solution
 		const byLineFirstDep = matrix(lineIds, depsIds[0])
 		.map(([[lineId, lineSpecif], [dep0Id, dep0Specif]]) => [
-			[lineId, dep0Id].join(':'),
+			[
+				unversionedId(lineId),
+				unversionedId(dep0Id),
+			].join(':'),
 			lineSpecif + dep0Specif + 21,
 		])
 
@@ -54,7 +57,7 @@ const tripIds = (dataSource, lineIds, depsIds, arrsIds) => (_) => {
 		const byAllDeps = transpose(depsIds)
 		.filter(ids => ids.every(id => !!id))
 		.map((ids) => [
-			hash(ids.map(([id]) => id).join(':')),
+			hash(ids.map(([id]) => unversionedId(id)).join(':')),
 			maxSpecif(ids) + 20, // pick highest=weakest specificity of all departures
 		])
 
@@ -76,7 +79,10 @@ const tripIds = (dataSource, lineIds, depsIds, arrsIds) => (_) => {
 		// todo: this is not always true, find a solution
 		const byLineFirstArr = matrix(lineIds, arrsIds[0])
 		.map(([[lineId, lineSpecif], [arr0Id, arr0Specif]]) => [
-			[lineId, arr0Id].join(':'),
+			[
+				unversionedId(lineId),
+				unversionedId(arr0Id),
+			].join(':'),
 			lineSpecif + arr0Specif + 21,
 		])
 
@@ -88,7 +94,7 @@ const tripIds = (dataSource, lineIds, depsIds, arrsIds) => (_) => {
 		const byAllArrs = transpose(arrsIds)
 		.filter(ids => ids.every(id => !!id))
 		.map((ids) => [
-			hash(ids.map(([id]) => id).join(':')),
+			hash(ids.map(([id]) => unversionedId(id)).join(':')),
 			maxSpecif(ids) + 20, // pick highest=weakest specificity of all arrivals
 		])
 
