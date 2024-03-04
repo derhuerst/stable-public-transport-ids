@@ -43,6 +43,7 @@ test('operator OneStop ID', (t) => {
 
 	const beginsWith = str => ([str2]) => str2.slice(0, str.length) === str
 	const onestopId = ids.find(beginsWith(`${v}:custom:o:`))
+	t.ok(onestopId)
 	t.deepEqual(ids, [
 		[[v, op.wikidataId].join(':'), 10],
 		[[v, 'sauce', op.id].join(':'), 20],

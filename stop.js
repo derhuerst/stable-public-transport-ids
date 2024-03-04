@@ -13,6 +13,7 @@ const createGetStableStopIds = (dataSource, normalizeName) => {
 
 		const stableIds = [
 			// third-party IDs
+			// todo: lower-case?
 			s.wikidataId ? [s.wikidataId, baseSpecificity + 10] : null,
 			s.osmId ? [s.osmId, baseSpecificity + 10] : null,
 
