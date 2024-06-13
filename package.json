@@ -29,10 +29,10 @@
 		"node": ">=20"
 	},
 	"dependencies": {
-		"@turf/bbox": "^6.0.1",
-		"@turf/center-of-mass": "^6.0.1",
-		"@turf/distance": "^6.0.1",
-		"@turf/helpers": "^6.1.4",
+		"@turf/bbox": "^7.0.0",
+		"@turf/center-of-mass": "^7.0.0",
+		"@turf/distance": "^7.0.0",
+		"@turf/helpers": "^7.0.0",
 		"ngeohash": "^0.6.3",
 		"shorthash": "0.0.2"
 	},
