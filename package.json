@@ -1,7 +1,7 @@
 {
 	"name": "@derhuerst/stable-public-transport-ids",
 	"description": "Get stable IDs for public transport stations, etc.",
-	"version": "3.0.0-alpha.1",
+	"version": "3.0.0-alpha.2",
 	"type": "module",
 	"dataVersion": 2,
 	"main": "index.js",
