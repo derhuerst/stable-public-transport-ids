@@ -3,7 +3,8 @@
 import {createRequire} from 'module';
 const require = createRequire(import.meta.url);
 
-import test from 'tape'
+import test from 'node:test'
+import {ok, deepStrictEqual} from 'node:assert'
 const {dataVersion: v} = require('./package.json')
 import {unique as hash} from 'shorthash'
 
@@ -43,15 +44,13 @@ test('operator OneStop ID', (t) => {
 
 	const beginsWith = str => ([str2]) => str2.slice(0, str.length) === str
 	const onestopId = ids.find(beginsWith(`${v}:custom:o:`))
-	t.ok(onestopId)
-	t.deepEqual(ids, [
+	ok(onestopId)
+	deepStrictEqual(ids, [
 		[[v, op.wikidataId].join(':'), 10],
 		[[v, 'sauce', op.id].join(':'), 20],
 		[`${v}:custom:o:dn:foo~transitF`, 30],
 		[[v, normalize(op.name, op), '36.1340', '-82.3110'].join(':'), 31],
 	])
-
-	t.end()
 })
 
 test('stop IDs', (t) => {
@@ -66,7 +65,7 @@ test('stop IDs', (t) => {
 		},
 		location: {latitude: 12.345, longitude: 23.456}
 	})
-	t.deepEqual(ids, [
+	deepStrictEqual(ids, [
 		// stop IDs
 		[[v, 'sauce', '123'].join(':'), 20], // data src, stop ID
 		// normalized stop name, normalized coords
@@ -114,11 +113,9 @@ test('stop IDs', (t) => {
 		name: 'Foo',
 		location: {latitude: 12.345, longitude: 23.456},
 	})
-	t.deepEqual(ids2, [
+	deepStrictEqual(ids2, [
 		[[v, 'sauce', '123'].join(':'), 30 + 20], // data src, stop ID
 	])
-
-	t.end()
 })
 
 test('line IDs', (t) => {
@@ -129,14 +126,12 @@ test('line IDs', (t) => {
 		mode: 'train',
 		operator: {id: 'foo-bar baz'}
 	})
-	t.deepEqual(ids, [
+	deepStrictEqual(ids, [
 		[[v, 'sauce', '1a'].join(':'), 20], // data src, line ID
 		[[v, 'foo-bar baz', 'some line1'].join(':'), 30], // operator ID, normalized name
 		[[v, 'suburban', 'some line1'].join(':'), 31], // product, normalized name
 		[[v, 'train', 'some line1'].join(':'), 32], // mode, normalized name
 	])
-
-	t.end()
 })
 
 test('arrival/departure IDs', (t) => {
@@ -155,7 +150,7 @@ test('arrival/departure IDs', (t) => {
 		platform: '3',
 		plannedPlatform: '2A/B '
 	})
-	t.deepEqual(ids, [
+	deepStrictEqual(ids, [
 		// stop ID + trip ID
 		[[v, 'arr', 'some-stop', 'some-trip'].join(':'), 20 + 30 + 20],
 		[[v, 'arr', 'another:stop', 'some-trip'].join(':'), 31 + 30 + 20],
@@ -174,8 +169,6 @@ test('arrival/departure IDs', (t) => {
 		[[v, 'arr', 'some-stop', 'another:line', 1546333800, '2a/b2'].join(':'), 20 + 11 + 30],
 		[[v, 'arr', 'another:stop', 'another:line', 1546333800, '2a/b2'].join(':'), 31 + 11 + 30],
 	])
-
-	t.end()
 })
 
 test('trip IDs', (t) => {
@@ -202,7 +195,7 @@ test('trip IDs', (t) => {
 			fahrtNr: '12345',
 		},
 	})
-	t.deepEqual(ids, [
+	deepStrictEqual(ids, [
 		[[v, 'sauce', 'trip-12345'].join(':'), 20], // data src + trip ID
 
 		// line IDs + fahrt nr
@@ -228,6 +221,4 @@ test('trip IDs', (t) => {
 		// all arrivals' IDs
 		[v + ':some-arr:' + hash(['arr0', 'arr1a', 'arr2'].join(':')), 50 + 20],
 	])
-
-	t.end()
 })
