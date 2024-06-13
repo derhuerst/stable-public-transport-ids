@@ -5,8 +5,7 @@ const STATION_SPECIFICITY_PENALTY = 30
 
 const createGetStableStopIds = (dataSource, normalizeName) => {
 	const _getStableStopIds = (s, baseSpecificity) => {
-		const stationOrStop = s.station || s
-		const nName = normalizeName(stationOrStop.name, stationOrStop)
+		const nName = s.name ? normalizeName(s.name, s) : null
 		const lat = s.location.latitude
 		const lon = s.location.longitude
 		// todo: stop code, e.g. like in GTFS?

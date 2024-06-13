@@ -69,16 +69,16 @@ test('stop IDs', (t) => {
 		// stop IDs
 		[[v, 'sauce', '123'].join(':'), 20], // data src, stop ID
 		// normalized stop name, normalized coords
-		[[v, 'bar1', 12.345.toFixed(4), 23.456.toFixed(4)].join(':'), 30],
+		[[v, 'foo1', 12.345.toFixed(4), 23.456.toFixed(4)].join(':'), 30],
 		// normalized stop name, normalized & shifted coords
-		[[v, 'bar1', 12.345.toFixed(4), (23.456 + .001).toFixed(4)].join(':'), 31],
-		[[v, 'bar1', 12.345.toFixed(4), (23.456 - .001).toFixed(4)].join(':'), 31],
-		[[v, 'bar1', (12.345 + .001).toFixed(4), 23.456.toFixed(4)].join(':'), 31],
-		[[v, 'bar1', (12.345 - .001).toFixed(4), 23.456.toFixed(4)].join(':'), 31],
-		[[v, 'bar1', (12.345 + .001).toFixed(4), (23.456 + .001).toFixed(4)].join(':'), 32],
-		[[v, 'bar1', (12.345 + .001).toFixed(4), (23.456 - .001).toFixed(4)].join(':'), 32],
-		[[v, 'bar1', (12.345 - .001).toFixed(4), (23.456 + .001).toFixed(4)].join(':'), 32],
-		[[v, 'bar1', (12.345 - .001).toFixed(4), (23.456 - .001).toFixed(4)].join(':'), 32],
+		[[v, 'foo1', 12.345.toFixed(4), (23.456 + .001).toFixed(4)].join(':'), 31],
+		[[v, 'foo1', 12.345.toFixed(4), (23.456 - .001).toFixed(4)].join(':'), 31],
+		[[v, 'foo1', (12.345 + .001).toFixed(4), 23.456.toFixed(4)].join(':'), 31],
+		[[v, 'foo1', (12.345 - .001).toFixed(4), 23.456.toFixed(4)].join(':'), 31],
+		[[v, 'foo1', (12.345 + .001).toFixed(4), (23.456 + .001).toFixed(4)].join(':'), 32],
+		[[v, 'foo1', (12.345 + .001).toFixed(4), (23.456 - .001).toFixed(4)].join(':'), 32],
+		[[v, 'foo1', (12.345 - .001).toFixed(4), (23.456 + .001).toFixed(4)].join(':'), 32],
+		[[v, 'foo1', (12.345 - .001).toFixed(4), (23.456 - .001).toFixed(4)].join(':'), 32],
 
 		// parent station IDs
 		[[v, 'station', 'Q1097'].join(':'), 30 + 10],
