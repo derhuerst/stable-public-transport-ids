@@ -1,10 +1,10 @@
 import {versionedId} from './lib/versioned-id.js'
 
-const createGetStableLineIds = (dataSource, normalizeName) => (s) => {
+const createGetStableLineIds = (namespace, normalizeName) => (s) => {
 	return [
 		s.wikidataId ? [s.wikidataId, 10] : null,
 		s.osmId ? [s.osmId, 10] : null,
-		s.id ? [dataSource + ':' + s.id, 20] : null,
+		s.id ? [namespace + ':' + s.id, 20] : null,
 		// todo [breaking]: use operator IDs
 		s.operator && s.operator.id && s.name
 			? [s.operator.id + ':' + normalizeName(s.name, s), 30]

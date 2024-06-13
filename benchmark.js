@@ -5,7 +5,7 @@ import {createGetStableLineIds as getLineIds} from './line.js'
 import {createGetStableTripIds as getTripIds} from './trip.js'
 import {createGetStableArrivalDepartureIds as getArrDepIds} from './arrival-departure.js'
 
-const dataSource = 'src'
+const ns = 'src'
 const normalizeName = n => n.toLowerCase()
 
 const operator = {
@@ -28,7 +28,7 @@ const operator = {
 		}
 	}
 }
-const operatorIds = getOperatorIds(dataSource, normalizeName)
+const operatorIds = getOperatorIds(ns, normalizeName)
 
 const stop = {
 	type: 'station',
@@ -40,7 +40,7 @@ const stop = {
 		longitude: 13.303846
 	}
 }
-const stopIds = getStopIds(dataSource, normalizeName)
+const stopIds = getStopIds(ns, normalizeName)
 
 const line = {
 	type: 'line',
@@ -49,7 +49,7 @@ const line = {
 	public: true,
 	name: 'S9'
 }
-const lineIds = getLineIds(dataSource, normalizeName)
+const lineIds = getLineIds(ns, normalizeName)
 
 // 19:32 S Charlottenburg 2b
 // |
@@ -108,7 +108,7 @@ const tripArrIds = trip.stopovers.map((st) => {
 		normalizeName,
 	)('arrival', st)
 })
-const tripIds = getTripIds(dataSource, tripLineIds, tripDepIds, tripArrIds)
+const tripIds = getTripIds(ns, tripLineIds, tripDepIds, tripArrIds)
 
 const dep0 = {
 	tripId: trip.id,
@@ -171,7 +171,7 @@ s.add('all IDs of a trip', () => {
 		)
 		return arrIds('arrival', st)
 	})
-	getTripIds(dataSource, _lineIds, _depIds, _arrIds)(trip)
+	getTripIds(ns, _lineIds, _depIds, _arrIds)(trip)
 })
 
 s.on('error', (err) => {

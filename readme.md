@@ -44,8 +44,8 @@ import {createGetStableStopIds} from '@derhuerst/stable-public-transport-ids/sto
 
 // This string will be used for all non-globally-unique pieces
 // of identifying information (e.g. IDs from the provider).
-// You could use the canonical abbreviation of the transit operator.
-const dataSource = 'some-data-source'
+// You could use the canonical abbreviation of the organization that generates and/or manages the stop IDs.
+const namespace = 'some-data-source'
 
 // The following implementation is simplified for demonstration purposes.
 // In practice, it should handle as many cases as possible:
@@ -53,7 +53,7 @@ const dataSource = 'some-data-source'
 // - remove inconsistent spaces
 // - remove vendor-/API-specific prefixes & suffixes
 const normalizeName = name => name.toLowerCase().trim().replace(/\s+/, '-')
-const getStopIds = createGetStableStopIds(dataSource, normalizeName)
+const getStopIds = createGetStableStopIds(namespace, normalizeName)
 
 const areStopsTheSame = (stopA, stopB) => {
 	const idsForA = getStopIds(stopA)
@@ -92,7 +92,7 @@ const line = {
 	public: true,
 	name: 'S9'
 }
-const getLineIds = createGetStableLineIds(dataSource, normalizeName)
+const getLineIds = createGetStableLineIds(namespace, normalizeName)
 const lineIds = getLineIds(line)
 
 console.log(lineIds)

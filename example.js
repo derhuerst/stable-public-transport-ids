@@ -5,7 +5,7 @@ import {createGetStableLineIds as getLineIds} from './line.js'
 import {createGetStableTripIds as getTripIds} from './trip.js'
 import {createGetStableArrivalDepartureIds as getArrDepIds} from './arrival-departure.js'
 
-const dataSource = 'some-data-source'
+const namespace = 'some-data-source'
 const normalizeName = slugg
 
 const operator = {
@@ -28,7 +28,7 @@ const operator = {
 		}
 	}
 }
-const operatorIds = getOperatorIds(dataSource, normalizeName)(operator)
+const operatorIds = getOperatorIds(namespace, normalizeName)(operator)
 console.log('operatorIds', operatorIds)
 
 const stop = {
@@ -41,7 +41,7 @@ const stop = {
 		longitude: 13.303846
 	}
 }
-const stopIds = getStopIds(dataSource, normalizeName)(stop)
+const stopIds = getStopIds(namespace, normalizeName)(stop)
 console.log('stopIds', stopIds)
 
 const line = {
@@ -52,7 +52,7 @@ const line = {
 	name: 'S9',
 	fahrtNr: '12345',
 }
-const lineIds = getLineIds(dataSource, normalizeName)(line)
+const lineIds = getLineIds(namespace, normalizeName)(line)
 console.log('lineIds', lineIds)
 
 
@@ -95,18 +95,18 @@ const trip = {
 }
 
 const depIds = trip.stopovers.map((st) => {
-	const stopIds = getStopIds(dataSource, normalizeName)(st.stop)
+	const stopIds = getStopIds(namespace, normalizeName)(st.stop)
 	return getArrDepIds(stopIds, [[trip.id, 20]], [], lineIds, normalizeName)('departure', st)
 })
 console.log('depIds', depIds)
 const arrIds = trip.stopovers.map((st) => {
-	const stopIds = getStopIds(dataSource, normalizeName)(st.stop)
+	const stopIds = getStopIds(namespace, normalizeName)(st.stop)
 	return getArrDepIds(stopIds, [[trip.id, 20]], [], lineIds, normalizeName)('arrival', st)
 })
 console.log('arrIds', arrIds)
 
 {
-	const tripIds = getTripIds(dataSource, lineIds, depIds, arrIds)(trip)
+	const tripIds = getTripIds(namespace, lineIds, depIds, arrIds)(trip)
 	console.log('tripIds', tripIds)
 }
 

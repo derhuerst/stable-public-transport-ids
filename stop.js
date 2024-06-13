@@ -3,7 +3,7 @@ import {versionedId, versionPrefixLength} from './lib/versioned-id.js'
 
 const STATION_SPECIFICITY_PENALTY = 30
 
-const createGetStableStopIds = (dataSource, normalizeName) => {
+const createGetStableStopIds = (namespace, normalizeName) => {
 	const _getStableStopIds = (s, baseSpecificity) => {
 		const nName = s.name ? normalizeName(s.name, s) : null
 		const lat = s.location.latitude
@@ -17,7 +17,7 @@ const createGetStableStopIds = (dataSource, normalizeName) => {
 			s.osmId ? [s.osmId, baseSpecificity + 10] : null,
 
 			// data-source-native ID
-			[dataSource + ':' + s.id, baseSpecificity + 20],
+			[namespace + ':' + s.id, baseSpecificity + 20],
 
 			// location-based IDs
 			// overlapping grids to ensure we always match nearby pairs

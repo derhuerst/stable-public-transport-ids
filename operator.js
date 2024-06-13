@@ -51,11 +51,11 @@ const operatorGeohash = (area) => {
 	return toGeohash(latitude, longitude, precision)
 }
 
-const createGetStableOperatorIds = (dataSource, normalizeName) => (o) => {
+const createGetStableOperatorIds = (namespace, normalizeName) => (o) => {
 	const ids = [
 		o.wikidataId ? [o.wikidataId, 10] : null,
 		o.osmId ? [o.osmId, 10] : null,
-		o.id ? [dataSource + ':' + o.id, 20] : null,
+		o.id ? [namespace + ':' + o.id, 20] : null,
 	]
 
 	if (o.serviceArea) {

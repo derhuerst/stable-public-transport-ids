@@ -12,7 +12,7 @@ const maxSpecif = (ids) => {
 }
 
 // todo: use these IDs without version prefix
-const tripIds = (dataSource, lineIds, depsIds, arrsIds) => (_) => {
+const tripIds = (namespace, lineIds, depsIds, arrsIds) => (_) => {
 	if (!Array.isArray(depsIds)) {
 		throw new Error('depsIds must be an array')
 	}
@@ -23,7 +23,7 @@ const tripIds = (dataSource, lineIds, depsIds, arrsIds) => (_) => {
 		: []
 
 	let ids = [
-		_.id ? [dataSource + ':' + _.id, 20] : null,
+		_.id ? [namespace + ':' + _.id, 20] : null,
 		...byLineIdFahrtNr,
 		// todo: use _.direction?
 		// todo: use geographical shape?
