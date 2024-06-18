@@ -31,11 +31,32 @@ npm install @derhuerst/stable-public-transport-ids
 ```
 
 
-## Usage
+## How it works
 
 *Note:* This project is currently strongly biased towards *German* [GTFS](https://developers.google.com/transit/gtfs/) & [`hafas-client`](https://github.com/public-transport/hafas-client) data.
 
-For each supported "type", this package exposes a function that generates a list of IDs. If any of these match any ID of another item (of the same type), they can be considered the same.
+For each supported "type", this package exposes **a function that generates a list of IDs. If any of these match any ID of another item (of the same type), they can be considered equal** with a certain degree of certainty.
+
+IDs also have an associated specificity, which allow you to make (vage) assumptions about this degree of certainty. For example, when trying to find out if two items represent the same physical entity, you might want to expect some degree of certainty, or only match IDs with a similar degree of certainty.
+
+As it is currently implemented, the IDs' specificities are integers, and their order of magnitude roughly represents the degree of specificity. As an example, let's consider stable stop IDs:
+
+stable ID | specificity
+-|-
+`2:Q111326217` | `10`
+`2:some data source:900000024101` | `20`
+`2:s-charlottenburg:52.5050:13.3040` | `30`
+`2:s-charlottenburg:52.5050:13.3050` | `31`
+`2:s-charlottenburg:52.5050:13.3030` | `31`
+`2:s-charlottenburg:52.5060:13.3040` | `31`
+`2:s-charlottenburg:52.5040:13.3040` | `31`
+`2:s-charlottenburg:52.5060:13.3050` | `32`
+`2:s-charlottenburg:52.5060:13.3030` | `32`
+`2:s-charlottenburg:52.5040:13.3050` | `32`
+`2:s-charlottenburg:52.5040:13.3030` | `32`
+
+
+## Usage
 
 As an example, the function `areStopsTheSame` checks if two stops are the same:
 
