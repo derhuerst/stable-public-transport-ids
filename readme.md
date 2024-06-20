@@ -44,7 +44,7 @@ As it is currently implemented, the IDs' specificities are integers, and their o
 stable ID | specificity
 -|-
 `2:Q111326217` | `10`
-`2:some data source:900000024101` | `20`
+`2:some-data-source:900000024101` | `20`
 `2:s-charlottenburg:52.5050:13.3040` | `30`
 `2:s-charlottenburg:52.5050:13.3050` | `31`
 `2:s-charlottenburg:52.5050:13.3030` | `31`
@@ -101,7 +101,7 @@ const stop = {
 const stopIds = getStopIds(stop)
 console.log(stopIds)
 // [
-// 	'2:some data source:900000024101',
+// 	'2:some-data-source:900000024101',
 // 	'2:s charlottenburg:52.50:13.30'
 // 	…
 // ]
@@ -118,7 +118,7 @@ const lineIds = getLineIds(line)
 
 console.log(lineIds)
 // [
-// 	'2:some data source:18299',
+// 	'2:some-data-source:18299',
 // 	'2:suburban:s9'
 // ]
 
@@ -142,7 +142,7 @@ const getDepIds = createGetStableDepartureIds(
 
 console.log(getDepIds('departure', dep))
 // [
-// 	'2:dep:some data source:900000024101:trip-12345',
+// 	'2:dep:some-data-source:900000024101:trip-12345',
 // 	'2:dep:s charlottenburg:52.50:13.30:trip-12345'
 // 	…
 // ]
