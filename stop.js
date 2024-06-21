@@ -1,7 +1,7 @@
 import {grid} from './lib/helpers.js'
 import {versionedId, versionPrefixLength} from './lib/versioned-id.js'
 
-const STATION_SPECIFICITY_PENALTY = 30
+const STATION_SPECIFICITY_PENALTY = 50
 
 const createGetStableStopIds = (namespace, normalizeName) => {
 	const _getStableStopIds = (s, baseSpecificity) => {
