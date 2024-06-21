@@ -46,16 +46,13 @@ const createGetStableStopIds = (namespace, normalizeName) => {
 			)
 
 			stableIds.push(
-				// These IDs a clearly marked as only describing the stop's parent station …
+				// It might be that another data source only has the parent station (treating it as an isolated stop), so that its stable IDs would never match our "parent-station-based" IDs (see below). So we add regular matching ones with a low specificity.
+				..._stationIds,
+				// These IDs are clearly marked as only describing the stop's parent station, so they get a low priority.
 				..._stationIds.map(([id, specificity]) => [
 					// add `station:` prefix to already versioned ID
 					id.slice(0, versionPrefixLength) + 'station:' + id.slice(versionPrefixLength),
-					specificity,
-				]),
-				// … but it might be that another data source only has the parent station, so that its stable IDs would never match our "parent-station-based" IDs. So we add regular ones along with an even lower specificity.
-				..._stationIds.map(([id, specificity]) => [
-					id,
-					STATION_SPECIFICITY_PENALTY + specificity,
+					specificity + 20,
 				]),
 			)
 		}

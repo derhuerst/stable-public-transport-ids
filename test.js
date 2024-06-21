@@ -80,31 +80,31 @@ test('stop IDs', (t) => {
 		[[v, 'foo1', (12.345 - .001).toFixed(4), (23.456 + .001).toFixed(4)].join(':'), 32],
 		[[v, 'foo1', (12.345 - .001).toFixed(4), (23.456 - .001).toFixed(4)].join(':'), 32],
 
-		// parent station IDs
-		[[v, 'station', 'Q1097'].join(':'), 50 + 10],
-		[[v, 'station', 'sauce', '12'].join(':'), 50 + 20],
-		[[v, 'station', 'bar1', 54.321.toFixed(4), 65.432.toFixed(4)].join(':'), 50 + 30],
-		[[v, 'station', 'bar1', 54.321.toFixed(4), (65.432 + .001).toFixed(4)].join(':'), 50 + 31],
-		[[v, 'station', 'bar1', 54.321.toFixed(4), (65.432 - .001).toFixed(4)].join(':'), 50 + 31],
-		[[v, 'station', 'bar1', (54.321 + .001).toFixed(4), 65.432.toFixed(4)].join(':'), 50 + 31],
-		[[v, 'station', 'bar1', (54.321 - .001).toFixed(4), 65.432.toFixed(4)].join(':'), 50 + 31],
-		[[v, 'station', 'bar1', (54.321 + .001).toFixed(4), (65.432 + .001).toFixed(4)].join(':'), 50 + 32],
-		[[v, 'station', 'bar1', (54.321 + .001).toFixed(4), (65.432 - .001).toFixed(4)].join(':'), 50 + 32],
-		[[v, 'station', 'bar1', (54.321 - .001).toFixed(4), (65.432 + .001).toFixed(4)].join(':'), 50 + 32],
-		[[v, 'station', 'bar1', (54.321 - .001).toFixed(4), (65.432 - .001).toFixed(4)].join(':'), 50 + 32],
-
 		// station IDs as stop IDs
-		[[v, 'Q1097'].join(':'), 50 + 50 + 10],
-		[[v, 'sauce', '12'].join(':'), 50 + 50 + 20],
-		[[v, 'bar1', 54.321.toFixed(4), 65.432.toFixed(4)].join(':'), 50 + 50 + 30],
-		[[v, 'bar1', 54.321.toFixed(4), (65.432 + .001).toFixed(4)].join(':'), 50 + 50 + 31],
-		[[v, 'bar1', 54.321.toFixed(4), (65.432 - .001).toFixed(4)].join(':'), 50 + 50 + 31],
-		[[v, 'bar1', (54.321 + .001).toFixed(4), 65.432.toFixed(4)].join(':'), 50 + 50 + 31],
-		[[v, 'bar1', (54.321 - .001).toFixed(4), 65.432.toFixed(4)].join(':'), 50 + 50 + 31],
-		[[v, 'bar1', (54.321 + .001).toFixed(4), (65.432 + .001).toFixed(4)].join(':'), 50 + 50 + 32],
-		[[v, 'bar1', (54.321 + .001).toFixed(4), (65.432 - .001).toFixed(4)].join(':'), 50 + 50 + 32],
-		[[v, 'bar1', (54.321 - .001).toFixed(4), (65.432 + .001).toFixed(4)].join(':'), 50 + 50 + 32],
-		[[v, 'bar1', (54.321 - .001).toFixed(4), (65.432 - .001).toFixed(4)].join(':'), 50 + 50 + 32],
+		[[v, 'Q1097'].join(':'), 50 + 10],
+		[[v, 'sauce', '12'].join(':'), 50 + 20],
+		[[v, 'bar1', 54.321.toFixed(4), 65.432.toFixed(4)].join(':'), 50 + 30],
+		[[v, 'bar1', 54.321.toFixed(4), (65.432 + .001).toFixed(4)].join(':'), 50 + 31],
+		[[v, 'bar1', 54.321.toFixed(4), (65.432 - .001).toFixed(4)].join(':'), 50 + 31],
+		[[v, 'bar1', (54.321 + .001).toFixed(4), 65.432.toFixed(4)].join(':'), 50 + 31],
+		[[v, 'bar1', (54.321 - .001).toFixed(4), 65.432.toFixed(4)].join(':'), 50 + 31],
+		[[v, 'bar1', (54.321 + .001).toFixed(4), (65.432 + .001).toFixed(4)].join(':'), 50 + 32],
+		[[v, 'bar1', (54.321 + .001).toFixed(4), (65.432 - .001).toFixed(4)].join(':'), 50 + 32],
+		[[v, 'bar1', (54.321 - .001).toFixed(4), (65.432 + .001).toFixed(4)].join(':'), 50 + 32],
+		[[v, 'bar1', (54.321 - .001).toFixed(4), (65.432 - .001).toFixed(4)].join(':'), 50 + 32],
+
+		// parent station IDs
+		[[v, 'station', 'Q1097'].join(':'), 50 + 20 + 10],
+		[[v, 'station', 'sauce', '12'].join(':'), 50 + 20 + 20],
+		[[v, 'station', 'bar1', 54.321.toFixed(4), 65.432.toFixed(4)].join(':'), 50 + 20 + 30],
+		[[v, 'station', 'bar1', 54.321.toFixed(4), (65.432 + .001).toFixed(4)].join(':'), 50 + 20 + 31],
+		[[v, 'station', 'bar1', 54.321.toFixed(4), (65.432 - .001).toFixed(4)].join(':'), 50 + 20 + 31],
+		[[v, 'station', 'bar1', (54.321 + .001).toFixed(4), 65.432.toFixed(4)].join(':'), 50 + 20 + 31],
+		[[v, 'station', 'bar1', (54.321 - .001).toFixed(4), 65.432.toFixed(4)].join(':'), 50 + 20 + 31],
+		[[v, 'station', 'bar1', (54.321 + .001).toFixed(4), (65.432 + .001).toFixed(4)].join(':'), 50 + 20 + 32],
+		[[v, 'station', 'bar1', (54.321 + .001).toFixed(4), (65.432 - .001).toFixed(4)].join(':'), 50 + 20 + 32],
+		[[v, 'station', 'bar1', (54.321 - .001).toFixed(4), (65.432 + .001).toFixed(4)].join(':'), 50 + 20 + 32],
+		[[v, 'station', 'bar1', (54.321 - .001).toFixed(4), (65.432 - .001).toFixed(4)].join(':'), 50 + 20 + 32],
 	])
 
 	const normalizeEmpty = () => ''
@@ -116,6 +116,34 @@ test('stop IDs', (t) => {
 	deepStrictEqual(ids2, [
 		[[v, 'sauce', '123'].join(':'), 50 + 20], // data src, stop ID
 	])
+})
+
+test(`stop's parent-station-based and the station's IDs overlap`, (t) => {
+	const foo = {
+		type: 'stop',
+		id: '123',
+		name: 'Foo',
+		station: {
+			type: 'station',
+			id: '12',
+			name: 'Bar',
+			location: {latitude: 54.321, longitude: 65.432},
+			wikidataId: 'Q1097', // Berlin central station's ID
+		},
+		location: {latitude: 12.345, longitude: 23.456},
+	}
+
+	const fooIds = stopIds('sauce', normalize)(foo)
+	const barIds = stopIds('sauce', normalize)({
+		...foo.station,
+		type: 'stop',
+	})
+	ok(fooIds.some(([fooId, fooSpecificity]) => {
+		return barIds.some(([barId, barSpecificity]) => (
+			fooId === barId
+			&& Math.round(fooSpecificity / 10) === Math.round(barSpecificity / 10)
+		))
+	}), 'fooIds & barIds should have an overlap')
 })
 
 test('line IDs', (t) => {

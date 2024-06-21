@@ -32,17 +32,35 @@ const operatorIds = getOperatorIds(namespace, normalizeName)(operator)
 console.log('operatorIds', operatorIds)
 
 const stop = {
-	type: 'station',
-	id: '900000024101',
+	type: 'stop',
+	id: '900000024101:1',
 	name: 'S Charlottenburg',
 	location: {
 		type: 'location',
-		latitude: 52.504806,
-		longitude: 13.303846
-	}
+		latitude: 52.5047,
+		longitude: 13.3037,
+	},
+	station: {
+		type: 'station',
+		id: '900000024101',
+		name: 'S Charlottenburg',
+		location: {
+			type: 'location',
+			latitude: 52.504806,
+			longitude: 13.303846
+		},
+	},
 }
 const stopIds = getStopIds(namespace, normalizeName)(stop)
 console.log('stopIds', stopIds)
+{
+	const station = {
+		...stop.station,
+		type: 'stop',
+	}
+	const stationIds = getStopIds(namespace, normalizeName)(station)
+	console.log('stationIds', stationIds)
+}
 
 const line = {
 	type: 'line',
